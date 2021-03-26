@@ -13,7 +13,6 @@ export const LOGIN_URL = `${AUTH_ROOT_URL}/login`;
 export const REGISTER_URL = `${AUTH_ROOT_URL}/register`;
 
 const USER_ROOT_URL = `${API_BASE_URL}/user`;
-
 export const STAT_URL = `${USER_ROOT_URL}/stat`;
 export const SUBMIT_URL = `${USER_ROOT_URL}/submit`;
 export const LOG_URL = `${USER_ROOT_URL}/log`;
