@@ -16,7 +16,7 @@ const USER_ROOT_URL = `${API_BASE_URL}/user`;
 
 export const STAT_URL = `${USER_ROOT_URL}/stat`;
 export const SUBMIT_URL = `${USER_ROOT_URL}/submit`;
-export const LOG_ROOT_URL = `${USER_ROOT_URL}/log`;
+export const LOG_URL = `${USER_ROOT_URL}/log`;
 
 const COMP_ROOT_URL = `${API_BASE_URL}/comp`;
 export const LEADERBOARD_URL = `${COMP_ROOT_URL}/leaderboard`;
@@ -26,7 +26,7 @@ export const getRegisterUrl = () => apiUrl(`${REGISTER_URL}`);
 
 export const getStatUrl = () => apiUrl(`${STAT_URL}`);
 export const getSubmitUrl = () => apiUrl(`${SUBMIT_URL}`);
-export const getLogUrl = () => apiUrl(`${LOG_ROOT_URL}`);
+export const getLogUrl = () => apiUrl(`${LOG_URL}`);
 
 export const getLeaderboardUrl = () => apiUrl(`${LEADERBOARD_URL}`);
 
