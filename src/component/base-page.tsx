@@ -1,5 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
+
+import NavBar from './nav/nav-bar';
+/*
 import {getLeaderboard} from '../service/comp-service';
 import {login} from '../service/auth-service';
 import {getStat, getLog} from '../service/user-service';
@@ -8,13 +11,38 @@ import {
 } from '../transport/auth';
 import {
     Ranking,
-} from "../transport/comp";
+} from "../transport/comp";*/
+
+import LandingPage from './landing/landing-page';
 
 const styles = makeStyles(theme => ({
-    content: {
+    root: {
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        minHeight: `100vh`,
+        fontFamily: `'Roboto', sans-serif`,
+    },
+    toolbar: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        [theme.breakpoints.down('xl')]: {
+            paddingLeft: `23%`,
+            paddingRight: `23%`,
+        },
+        [theme.breakpoints.down('lg')]: {
+            paddingLeft: `11%`,
+            paddingRight: `11%`,
+        },
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: `5%`,
+            paddingRight: `5%`,
+        },
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: `5%`,
+            paddingRight: `5%`,
+        },
         color: theme.palette.primary.main,
+        backgroundColor: `#EFEFEF`,
     },
 }));
 
@@ -22,6 +50,7 @@ const BasePage = () => {
 
     const classes = styles();
 
+    /*
     useEffect(() => {
         fetchLeaderboard();
         loginUser();
@@ -53,15 +82,15 @@ const BasePage = () => {
         const response = await login(loginRequest);
 
         console.log(response);
-    }
+    }*/
 
     return (
-        <div className={classes.content}>
-            <header className={classes.content}>
-                <p onClick={() => fetchStat()}>
-                    Welcome to the website!
-                </p>
-            </header>
+        <div className={classes.root}>
+            <NavBar />
+            <main id='content' className={classes.content}>
+                <div className={classes.toolbar}/>
+                <LandingPage />
+            </main>
         </div>
     );
 }

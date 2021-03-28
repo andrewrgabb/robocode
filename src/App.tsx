@@ -7,7 +7,7 @@ import BasePage from './component/base-page';
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: 'rgb(35, 53, 165)',
+            main: 'rgba(35, 53, 165, 0.95)',
         },
         secondary: {
             main: '#11cb5f',
