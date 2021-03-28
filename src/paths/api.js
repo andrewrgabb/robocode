@@ -1,24 +1,23 @@
-/* API SUMMARY */
+/* API URLs */
+const API_BASE_URL = `/api`;
+
 // api/auth/login
 // api/auth/register
+const AUTH_ROOT_URL = `${API_BASE_URL}/auth`;
+const LOGIN_URL = `${AUTH_ROOT_URL}/login`;
+const REGISTER_URL = `${AUTH_ROOT_URL}/register`;
+
 // api/user/stat
 // api/user/submit
 // api/user/log
-// api/comp/leaderboard
-
-const API_BASE_URL = `/api`;
-
-const AUTH_ROOT_URL = `${API_BASE_URL}/auth`;
-export const LOGIN_URL = `${AUTH_ROOT_URL}/login`;
-export const REGISTER_URL = `${AUTH_ROOT_URL}/register`;
-
 const USER_ROOT_URL = `${API_BASE_URL}/user`;
-export const STAT_URL = `${USER_ROOT_URL}/stat`;
-export const SUBMIT_URL = `${USER_ROOT_URL}/submit`;
-export const LOG_URL = `${USER_ROOT_URL}/log`;
+const STAT_URL = `${USER_ROOT_URL}/stat`;
+const SUBMIT_URL = `${USER_ROOT_URL}/submit`;
+const LOG_URL = `${USER_ROOT_URL}/log`;
 
+// api/comp/leaderboard
 const COMP_ROOT_URL = `${API_BASE_URL}/comp`;
-export const LEADERBOARD_URL = `${COMP_ROOT_URL}/leaderboard`;
+const LEADERBOARD_URL = `${COMP_ROOT_URL}/leaderboard`;
 
 export const getLoginUrl = () => apiUrl(`${LOGIN_URL}`);
 export const getRegisterUrl = () => apiUrl(`${REGISTER_URL}`);

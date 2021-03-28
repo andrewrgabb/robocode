@@ -9,50 +9,32 @@ import {
 import {doPost} from "./base-service";
 import {cyrb53} from '../util/encryption';
 
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie'; ? ever required ?
 
 export const login = async(loginRequest: LoginUserRequest) => {
 
     const encryptedPassword: number = cyrb53(loginRequest.password);
     loginRequest.password = encryptedPassword.toString();
 
-    let response = await fetch(getLoginUrl(), {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify(loginRequest),
-    });
-
-    
+    let response = await doPost(getLoginUrl(), loginRequest);
 
     if (!response.ok) {
         console.log(response.statusText)
     }
 
-    let json = await response;
-
-    console.log(json)
-
-    return json;
-
-
-    /*
-    
-
-    let json = await response.json();
-    console.log(json)*/
+    return response;
 }
 
 export const register = async(registrationRequest: RegisterUserRequest) => {
+
+    const encryptedPassword: number = cyrb53(registrationRequest.password);
+    registrationRequest.password = encryptedPassword.toString();
 
     let response = await doPost(getRegisterUrl(), registrationRequest);
 
     if (!response.ok) {
         return null;
     }
-
-    let json = await response.json();
-    console.log(json)
+    
+    return response;
 }

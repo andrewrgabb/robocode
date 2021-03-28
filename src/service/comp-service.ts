@@ -1,17 +1,19 @@
 import {
     getLeaderboardUrl,
 } from '../paths/api';
+import {
+    Ranking,
+} from "../transport/comp";
 import {doGet} from "./base-service";
 
-export const getLeaderboard = async() => {
+export const getLeaderboard = async(): Promise<Ranking[] | null> => {
 
-    let response = await doGet(getLeaderboardUrl());
+    const response = await doGet(getLeaderboardUrl());
 
     if (!response.ok) {
         return null;
     }
 
-    let json = await response.json();
-
+    const json: Ranking[] = await response.json();
     return json;
-}
+};

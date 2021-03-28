@@ -1,11 +1,44 @@
 import React from 'react';
 
-import BasePage from './component/base-page'
+import {ThemeProvider as MuiThemeProvider} from '@material-ui/styles';
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import BasePage from './component/base-page';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: 'rgb(35, 53, 165)',
+        },
+        secondary: {
+            main: '#11cb5f',
+        },
+        success: {
+            main: '#079A54',
+            //alt: '#057c44',
+        },
+        warning: {
+            main: '#ff9800',
+        }
+    },
+    breakpoints: {
+        keys: ["xs", "sm", "md", "lg", "xl"],
+        values: {
+            xs: 360,
+            sm: 600,
+            md: 960,
+            lg: 1280,
+            xl: 1920,
+        },
+    },
+});
 
 const App = () => {
 
     return (
-        <BasePage />
+        <MuiThemeProvider theme={theme}>
+            <BasePage />
+        </MuiThemeProvider>
+        
     );
 }
 
