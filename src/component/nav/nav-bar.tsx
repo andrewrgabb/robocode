@@ -4,6 +4,7 @@ import {getTopNavItems, ON_ALL_PAGES} from "./nav-items";
 import logo from '../../assets/images/logo/auctions11-logo.svg';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import {NavLink} from "react-router-dom";
 
 const styles = makeStyles(theme => ({
     bar: {
@@ -24,7 +25,7 @@ const styles = makeStyles(theme => ({
     title: {
         fontSize: `24px`,
         color: theme.palette.primary.main,
-        paddingLeft: `12px`,
+        //paddingLeft: `12px`,
     },
     appBarButton: {
         marginLeft: 4 + 'px',
@@ -34,7 +35,8 @@ const styles = makeStyles(theme => ({
         cursor: 'pointer',
     },
     menuButtonLink: {
-        borderRadius: 5 + "px",
+        padding: `10px`,
+        borderRadius: `10px`,
         textDecoration: "none",
         "&.active": {
             backgroundColor: "#f8f9fa",
@@ -42,6 +44,9 @@ const styles = makeStyles(theme => ({
         "&:hover": {
             backgroundColor: "#f8f9fa",
         },
+    },
+    homeButtonLink: {
+        textDecoration: "none",
     },
     menuButtonText: {
         paddingTop: `1px`,
@@ -59,12 +64,13 @@ const renderLogo = () => {
 
     return (
         <React.Fragment>
-            <div id='logo' className={classes.logo}>
+            <NavLink exact={true} to={'/'} id='logo' className={`${classes.logo} ${classes.homeButtonLink}`} >
                 <img className={classes.logoImage} alt="logo" src={logo}/>
-                <h1 className={classes.title} >
+                <h1 className={`${classes.title} ${classes.menuButtonLink}`} >
                     {`Auction's Eleven`}
                 </h1>
-            </div>
+                
+            </NavLink>
         </React.Fragment>
     )
 }
@@ -78,9 +84,18 @@ const renderNavButtons = () => {
     return topNavItems
         .filter(navItem => navItem.loggedIn === false || navItem.loggedIn === ON_ALL_PAGES) //userContext.isUserLoggedIn() 
         .map((navItem, index) => {
+            return <div className={`${classes.appBarButton}`} key={`top-nav-item-${index}`}>
+                        <NavLink exact={true}
+                             className={classes.menuButtonLink}
+                             to={navItem.to}>
+                            <span className={classes.menuButtonText}>{navItem.text}</span>
+                        </NavLink>
+                    </div>
+
+            /*
             return <div className={`${classes.appBarButton} ${classes.menuButtonLink}`} key={`top-nav-item-${index}`}>
                 <span className={classes.menuButtonText}>{navItem.text}</span>
-            </div>
+            </div>*/
         })
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-
+import {Route} from "react-router-dom";
 import NavBar from './nav/nav-bar';
 /*
 import {getLeaderboard} from '../service/comp-service';
@@ -14,6 +14,10 @@ import {
 } from "../transport/comp";*/
 
 import LandingPage from './landing/landing-page';
+import LeaderboardPage from './comp/leaderboard-page';
+import RulesPage from './comp/rules-page';
+import DashboardPage from './user/dashboard-page';
+import SubmitPage from './user/submit-page';
 
 const styles = makeStyles(theme => ({
     root: {
@@ -48,9 +52,28 @@ const styles = makeStyles(theme => ({
 
 const BasePage = () => {
 
+    //props: {history: History; location: Location; match: string | undefined}
     const classes = styles();
 
-    /*
+    return (
+        <div className={classes.root}>
+            <NavBar />
+            <main id='content' className={classes.content}>
+                <div className={classes.toolbar}/>
+                <Route exact path="/" component={LandingPage}/>
+                <Route exact path="/comp/leaderboard" component={LeaderboardPage}/>
+                <Route exact path="/comp/rules" component={RulesPage}/>
+                <Route exact path="/user/dashboard" component={DashboardPage}/>
+                <Route exact path="/user/submit" component={SubmitPage}/>
+            </main>
+        </div>
+    );
+}
+
+export default BasePage;
+
+
+/*
     useEffect(() => {
         fetchLeaderboard();
         loginUser();
@@ -83,16 +106,3 @@ const BasePage = () => {
 
         console.log(response);
     }*/
-
-    return (
-        <div className={classes.root}>
-            <NavBar />
-            <main id='content' className={classes.content}>
-                <div className={classes.toolbar}/>
-                <LandingPage />
-            </main>
-        </div>
-    );
-}
-
-export default BasePage;

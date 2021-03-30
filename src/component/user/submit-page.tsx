@@ -16,14 +16,14 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-const RegisterPage = () => {
+const SubmitPage = () => {
 
     const classes = styles();
 
     return (
         <React.Fragment>
             <h1 className={classes.titleContainer}>
-                {`Welcome to Register Page!`}
+                {`Welcome to the Submit Page!`}
             </h1>
             <h2 className={classes.subtitleContainer}>
                 {`This year's challenge is Auction's Eleven, a game about auctions, communication protocols, and adversarial strategy.`}
@@ -32,4 +32,4 @@ const RegisterPage = () => {
     )
 }
 
-export default RegisterPage;
+export default SubmitPage;

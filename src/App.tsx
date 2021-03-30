@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {ThemeProvider as MuiThemeProvider} from '@material-ui/styles';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import BasePage from './component/base-page';
@@ -36,7 +36,13 @@ const App = () => {
 
     return (
         <MuiThemeProvider theme={theme}>
-            <BasePage />
+            <Router>
+                <div>
+                    <Switch>
+                        <Route component={BasePage}/>
+                    </Switch>
+                </div>
+            </Router>
         </MuiThemeProvider>
         
     );
