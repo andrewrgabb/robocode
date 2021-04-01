@@ -1,15 +1,15 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {getTopNavItems, ON_ALL_PAGES} from "./nav-items";
-import logo from '../../assets/images/logo/auctions11-logo.svg';
+import logo from '../../assets/images/logo.svg';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import {NavLink} from "react-router-dom";
 
 const styles = makeStyles(theme => ({
     bar: {
-        width: 100 + '%',
-        height: 60 + 'px',
+        width: `100%`,
+        height: `60px`,
         backgroundColor: theme.palette.common.white,
     },
     logo: {
@@ -17,7 +17,8 @@ const styles = makeStyles(theme => ({
         height: `40px`,
         alignItems: 'center',
         cursor: 'pointer',
-        marginRight: `10px`,
+        padding: `0px 10px 0px 10px`,
+        margin: `0px 5px 0px 0px`,
     },
     logoImage: {
         height: `40px`,
@@ -25,17 +26,17 @@ const styles = makeStyles(theme => ({
     title: {
         fontSize: `24px`,
         color: theme.palette.primary.main,
-        padding: `10px`,
+        padding: `0px 0px 0px 10px`,
     },
     appBarButton: {
-        marginLeft: 4 + 'px',
-        marginRight: 4 + 'px',
+        height: `40px`,
+        margin: `0px 5px 0px 5px`,
         display: `flex`,
         alignItems: 'center',
+        justifyContent: `center`,
         cursor: 'pointer',
     },
     menuButtonLink: {
-        padding: `10px`,
         borderRadius: `10px`,
         textDecoration: "none",
         "&.active": {
@@ -45,15 +46,8 @@ const styles = makeStyles(theme => ({
             backgroundColor: "#f8f9fa",
         },
     },
-    homeButtonLink: {
-        borderRadius: `10px`,
+    removeTextDecoration: {
         textDecoration: "none",
-        "&.active": {
-            backgroundColor: "#f8f9fa",
-        },
-        "&:hover": {
-            backgroundColor: "#f8f9fa",
-        },
     },
     menuButtonText: {
         paddingTop: `1px`,
@@ -71,7 +65,7 @@ const renderLogo = () => {
 
     return (
         <React.Fragment>
-            <NavLink exact={true} to={'/'} id='logo' className={`${classes.logo} ${classes.homeButtonLink}`} >
+            <NavLink exact={true} to={'/'} id='logo' className={`${classes.logo} ${classes.menuButtonLink}`} >
                 <img className={classes.logoImage} alt="logo" src={logo}/>
                 <h1 className={`${classes.title}`} >
                     {`Auction's Eleven`}
@@ -91,13 +85,11 @@ const renderNavButtons = () => {
     return topNavItems
         .filter(navItem => navItem.loggedIn === false || navItem.loggedIn === ON_ALL_PAGES) //userContext.isUserLoggedIn() 
         .map((navItem, index) => {
-            return <div className={`${classes.appBarButton}`} key={`top-nav-item-${index}`}>
-                        <NavLink exact={true}
-                             className={classes.menuButtonLink}
-                             to={navItem.to}>
+            return <NavLink key={`top-nav-item-${index}`} exact={true}
+                            className={`${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
+                            to={navItem.to}>
                             <span className={classes.menuButtonText}>{navItem.text}</span>
-                        </NavLink>
-                    </div>
+                    </NavLink>
 
             /*
             return <div className={`${classes.appBarButton} ${classes.menuButtonLink}`} key={`top-nav-item-${index}`}>

@@ -16,8 +16,7 @@ import {
 import LandingPage from './landing/landing-page';
 import LeaderboardPage from './comp/leaderboard-page';
 import RulesPage from './comp/rules-page';
-import DashboardPage from './user/dashboard-page';
-import SubmitPage from './user/submit-page';
+import UserPage from './user/user-page';
 
 const styles = makeStyles(theme => ({
     root: {
@@ -61,10 +60,9 @@ const BasePage = () => {
             <main id='content' className={classes.content}>
                 <div className={classes.toolbar}/>
                 <Route exact path="/" component={LandingPage}/>
-                <Route exact path="/comp/leaderboard" component={LeaderboardPage}/>
-                <Route exact path="/comp/rules" component={RulesPage}/>
-                <Route exact path="/user/dashboard" component={DashboardPage}/>
-                <Route exact path="/user/submit" component={SubmitPage}/>
+                <Route exact path="/rules" component={RulesPage}/>
+                <Route exact path="/leaderboard" component={LeaderboardPage}/>
+                <Route exact path="/user" component={UserPage}/>
             </main>
         </div>
     );

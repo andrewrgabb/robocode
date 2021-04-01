@@ -16,14 +16,14 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-const DashboardPage = () => {
+const UserPage = () => {
 
     const classes = styles();
 
     return (
         <React.Fragment>
             <h1 className={classes.titleContainer}>
-                {`Welcome to the Dashboard Page!`}
+                {`Welcome to the User Page!`}
             </h1>
             <h2 className={classes.subtitleContainer}>
                 {`This year's challenge is Auction's Eleven, a game about auctions, communication protocols, and adversarial strategy.`}
@@ -32,4 +32,4 @@ const DashboardPage = () => {
     )
 }
 
-export default DashboardPage;
+export default UserPage;

@@ -8,7 +8,7 @@ export const getTopNavItems = () => {
             loggedIn: ON_ALL_PAGES,
             icon: <School />,
             to: {
-                pathname: "/comp/rules",
+                pathname: "/rules",
                 search: "",
             }
         },
@@ -17,7 +17,7 @@ export const getTopNavItems = () => {
             loggedIn: ON_ALL_PAGES,
             icon: <People />,
             to: {
-                pathname: "/comp/leaderboard",
+                pathname: "/leaderboard",
             },
         },
         {
