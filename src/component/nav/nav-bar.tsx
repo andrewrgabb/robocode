@@ -14,18 +14,18 @@ const styles = makeStyles(theme => ({
     },
     logo: {
         display: `flex`,
-        height: `100%`,
+        height: `40px`,
         alignItems: 'center',
         cursor: 'pointer',
         marginRight: `10px`,
     },
     logoImage: {
-        height: `50px`,
+        height: `40px`,
     },
     title: {
         fontSize: `24px`,
         color: theme.palette.primary.main,
-        //paddingLeft: `12px`,
+        padding: `10px`,
     },
     appBarButton: {
         marginLeft: 4 + 'px',
@@ -46,7 +46,14 @@ const styles = makeStyles(theme => ({
         },
     },
     homeButtonLink: {
+        borderRadius: `10px`,
         textDecoration: "none",
+        "&.active": {
+            backgroundColor: "#f8f9fa",
+        },
+        "&:hover": {
+            backgroundColor: "#f8f9fa",
+        },
     },
     menuButtonText: {
         paddingTop: `1px`,
@@ -66,7 +73,7 @@ const renderLogo = () => {
         <React.Fragment>
             <NavLink exact={true} to={'/'} id='logo' className={`${classes.logo} ${classes.homeButtonLink}`} >
                 <img className={classes.logoImage} alt="logo" src={logo}/>
-                <h1 className={`${classes.title} ${classes.menuButtonLink}`} >
+                <h1 className={`${classes.title}`} >
                     {`Auction's Eleven`}
                 </h1>
                 

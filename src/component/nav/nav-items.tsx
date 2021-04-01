@@ -5,7 +5,7 @@ export const getTopNavItems = () => {
     return [
         {
             text: "Rules",
-            loggedIn: false,
+            loggedIn: ON_ALL_PAGES,
             icon: <School />,
             to: {
                 pathname: "/comp/rules",
@@ -21,11 +21,11 @@ export const getTopNavItems = () => {
             },
         },
         {
-            text: "Stat",
-            loggedIn: true,
+            text: "My Account",
+            loggedIn: false, //true
             icon: <ListAlt />,
             to: {
-                pathname: "/user/stat",
+                pathname: "/user",
             },
         },
     ]
