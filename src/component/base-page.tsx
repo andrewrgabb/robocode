@@ -2,16 +2,8 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Route} from "react-router-dom";
 import NavBar from './nav/nav-bar';
-/*
-import {getLeaderboard} from '../service/comp-service';
-import {login} from '../service/auth-service';
-import {getStat, getLog} from '../service/user-service';
-import {
-    LoginUserRequest,
-} from '../transport/auth';
-import {
-    Ranking,
-} from "../transport/comp";*/
+
+
 
 import LandingPage from './landing/landing-page';
 import LeaderboardPage from './comp/leaderboard-page';

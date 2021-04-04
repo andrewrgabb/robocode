@@ -1,6 +1,5 @@
 import React from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { relative } from 'node:path';
 
 const styles = makeStyles(theme => ({
     rulesContent: {

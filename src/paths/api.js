@@ -15,9 +15,8 @@ const STAT_URL = `${USER_ROOT_URL}/stat`;
 const SUBMIT_URL = `${USER_ROOT_URL}/submit`;
 const LOG_URL = `${USER_ROOT_URL}/log`;
 
-// api/comp/leaderboard
-const COMP_ROOT_URL = `${API_BASE_URL}/comp`;
-const LEADERBOARD_URL = `${COMP_ROOT_URL}/leaderboard`;
+// api/leaderboard
+const LEADERBOARD_URL = `${API_BASE_URL}/leaderboard`;
 
 export const getLoginUrl = () => apiUrl(`${LOGIN_URL}`);
 export const getRegisterUrl = () => apiUrl(`${REGISTER_URL}`);
