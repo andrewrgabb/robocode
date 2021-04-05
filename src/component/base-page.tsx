@@ -48,8 +48,8 @@ const BasePage = () => {
     //props: {history: History; location: Location; match: string | undefined}
     const classes = styles();
 
-    /*
-    useEffect(() => {
+    
+    /*useEffect(() => {
         loginUser();
     }, []);
 

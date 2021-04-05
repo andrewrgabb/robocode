@@ -22,7 +22,7 @@ export const getTopNavItems = () => {
         },
         {
             text: "My Account",
-            loggedIn: false, //true
+            loggedIn: true, //true
             icon: <ListAlt />,
             to: {
                 pathname: "/user",

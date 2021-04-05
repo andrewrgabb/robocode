@@ -44,6 +44,7 @@ const App = () => {
 
     const tryLogin = useCallback(async () => {
         const newUsername: string | null = await getCurrentUser();
+        console.log(newUsername);
         if (null != newUsername) {
             setUsername(newUsername);
         }
@@ -64,7 +65,7 @@ const App = () => {
         <MuiThemeProvider theme={theme}>
             <UserProvider value={{
                     currentUsername: username,
-                    isUserLoggedIn: () => username !== null,
+                    isUserLoggedIn: () => (username !== null),
                     setCurrentUsername: (username) => {
                         setUsername(username);
                     },

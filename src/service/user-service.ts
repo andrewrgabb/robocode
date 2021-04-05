@@ -19,7 +19,10 @@ export const getCurrentUser = async () => {
     }
 
     let json = await response.json();
-    return json.user;
+    
+    const username = json.username;
+
+    return username;
 };
 
 export const getStat = async(): Promise<Stat | null> => {

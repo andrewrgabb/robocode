@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {getTopNavItems, ON_ALL_PAGES} from "./nav-items";
 import logo from '../../assets/images/logo.svg';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import {NavLink} from "react-router-dom";
+import UserContext from "../../context/user-context";
 
 const styles = makeStyles(theme => ({
     bar: {
@@ -59,44 +60,7 @@ const styles = makeStyles(theme => ({
     },
 }));
 
-const renderLogo = () => {
 
-    const classes = styles();
-
-    return (
-        <React.Fragment>
-            <NavLink exact={true} to={'/'} id='logo' className={`${classes.logo} ${classes.menuButtonLink}`} >
-                <img className={classes.logoImage} alt="logo" src={logo}/>
-                <h1 className={`${classes.title}`} >
-                    {`Auction's Eleven`}
-                </h1>
-                
-            </NavLink>
-        </React.Fragment>
-    )
-}
-
-const renderNavButtons = () => {
-
-    const classes = styles();
-
-    const topNavItems = getTopNavItems();
-
-    return topNavItems
-        .filter(navItem => navItem.loggedIn === false || navItem.loggedIn === ON_ALL_PAGES) //userContext.isUserLoggedIn() 
-        .map((navItem, index) => {
-            return <NavLink key={`top-nav-item-${index}`} exact={true}
-                            className={`${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
-                            to={navItem.to}>
-                            <span className={classes.menuButtonText}>{navItem.text}</span>
-                    </NavLink>
-
-            /*
-            return <div className={`${classes.appBarButton} ${classes.menuButtonLink}`} key={`top-nav-item-${index}`}>
-                <span className={classes.menuButtonText}>{navItem.text}</span>
-            </div>*/
-        })
-}
 
    
 
@@ -105,6 +69,48 @@ const renderNavButtons = () => {
 const NavBar = () => {
 
     const classes = styles();
+    const userContext = useContext(UserContext);
+
+    const renderLogo = () => {
+
+        const classes = styles();
+    
+        return (
+            <React.Fragment>
+                <NavLink exact={true} to={'/'} id='logo' className={`${classes.logo} ${classes.menuButtonLink}`} >
+                    <img className={classes.logoImage} alt="logo" src={logo}/>
+                    <h1 className={`${classes.title}`} >
+                        {`Auction's Eleven`}
+                    </h1>
+                    
+                </NavLink>
+            </React.Fragment>
+        )
+    }
+    
+    const renderNavButtons = () => {
+    
+        const classes = styles();
+        
+    
+        const topNavItems = getTopNavItems();
+    
+        return topNavItems
+            .filter(navItem => navItem.loggedIn === userContext.isUserLoggedIn() || navItem.loggedIn === ON_ALL_PAGES) //userContext.isUserLoggedIn() 
+            .map((navItem, index) => {
+                return <NavLink key={`top-nav-item-${index}`} exact={true}
+                                className={`${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
+                                to={navItem.to}>
+                                <span className={classes.menuButtonText}>{navItem.text}</span>
+                        </NavLink>
+    
+                /*
+                return <div className={`${classes.appBarButton} ${classes.menuButtonLink}`} key={`top-nav-item-${index}`}>
+                    <span className={classes.menuButtonText}>{navItem.text}</span>
+                </div>*/
+            })
+    }
+
 
     return (
         <div>
