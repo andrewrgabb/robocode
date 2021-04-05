@@ -22,7 +22,7 @@ const styles = makeStyles(theme => ({
 }));
 
 type DisplayProps = {
-    leaderboard: Ranking[],
+    leaderboard: Ranking[] | null,
 }
 
 
@@ -30,7 +30,7 @@ const LeaderboardPage = () => {
 
     const classes = styles();
 
-    const [leaderboard, setLeaderboard] = useState<(Ranking[])>([]);
+    const [leaderboard, setLeaderboard] = useState<(Ranking[] | null)>(null);
 
     useEffect(() => {
         fetchLeaderboard();
@@ -49,11 +49,8 @@ const LeaderboardPage = () => {
 
     const displayLeaderboard = ({leaderboard}: DisplayProps) => {
 
-        console.log(leaderboard);
-
-        if (undefined === leaderboard.length) {
-            //return null;
-            leaderboard = [{name: 'nam', elo: '4'}]
+        if (null == leaderboard) {
+            return null;
         }
 
         return leaderboard.map((entry) => 

@@ -1,4 +1,5 @@
 import {
+    getCurrentUserUrl,
     getStatUrl,
     getSubmitUrl,
     getLogUrl,
@@ -7,6 +8,19 @@ import {doGet, doPost} from "./base-service";
 import {
     Stat,
 } from '../transport/user';
+
+export const getCurrentUser = async () => {
+
+    const response = await doGet(getCurrentUserUrl());
+
+    if (!response.ok) {
+        console.log("Error fetching current user");
+        return null;
+    }
+
+    let json = await response.json();
+    return json.user;
+};
 
 export const getStat = async(): Promise<Stat | null> => {
 

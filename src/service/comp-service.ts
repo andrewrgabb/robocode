@@ -14,7 +14,10 @@ export const getLeaderboard = async(): Promise<Ranking[] | null> => {
         return null;
     }
 
-    const json: Ranking[] = await response.json();
+    const json = await response.json();
+    
+    const rankings: Ranking[] = json.rankings;
+    console.log(rankings);
 
-    return json;
+    return rankings;
 };

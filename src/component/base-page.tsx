@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Route} from "react-router-dom";
 import NavBar from './nav/nav-bar';
@@ -9,6 +9,8 @@ import LandingPage from './landing/landing-page';
 import LeaderboardPage from './comp/leaderboard-page';
 import RulesPage from './comp/rules-page';
 import UserPage from './user/user-page';
+import { login } from '../service/auth-service';
+import { LoginUserRequest } from '../transport/auth';
 
 const styles = makeStyles(theme => ({
     root: {
@@ -46,6 +48,20 @@ const BasePage = () => {
     //props: {history: History; location: Location; match: string | undefined}
     const classes = styles();
 
+    /*
+    useEffect(() => {
+        loginUser();
+    }, []);
+
+    const loginUser = async() => {
+
+        const loginRequest = new LoginUserRequest('a', 'a');
+
+        const response = await login(loginRequest);
+
+        console.log(response);
+    }*/
+
     return (
         <div className={classes.root}>
             <NavBar />
@@ -64,10 +80,7 @@ export default BasePage;
 
 
 /*
-    useEffect(() => {
-        fetchLeaderboard();
-        loginUser();
-    }, []);
+    
 
     const fetchLeaderboard = async() => {
 
@@ -88,11 +101,4 @@ export default BasePage;
     }
 
 
-    const loginUser = async() => {
-
-        const loginRequest = new LoginUserRequest('a', 'a');
-
-        const response = await login(loginRequest);
-
-        console.log(response);
-    }*/
+    */
