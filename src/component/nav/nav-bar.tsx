@@ -6,8 +6,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import {NavLink} from "react-router-dom";
 import UserContext from "../../context/user-context";
+import Button from "@material-ui/core/Button";
+
+import {doLogout} from '../../service/auth-service'
 
 const styles = makeStyles(theme => ({
+    grow: {
+        flexGrow: 1,
+    },
     bar: {
         width: `100%`,
         height: `60px`,
@@ -58,6 +64,14 @@ const styles = makeStyles(theme => ({
         fontSize: `20px`,
         color: `rgba(50,50,50,0.90)`,
     },
+    authButtons: {
+        marginLeft: '10px',
+        marginRight: '10px',
+        textTransform: "capitalize",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "smaller",
+        },
+    },
 }));
 
 
@@ -87,6 +101,33 @@ const NavBar = () => {
             </React.Fragment>
         )
     }
+
+    const renderLoginAuth = () => {
+        return (
+            <div>
+                <NavLink to={{pathname: "/login", search: ""}} className={`${classes.removeTextDecoration}`}>
+                    <Button color="primary" className={classes.authButtons}>
+                        {`Login`}
+                    </Button>
+                </NavLink>
+                <NavLink to={{pathname: "/register", search: ""}} className={`${classes.removeTextDecoration}`}>
+                <Button variant="contained" color="primary" className={classes.authButtons}>
+                    {`Register`}
+                </Button>
+                </NavLink>
+            </div>
+        );
+    };
+
+    const renderLogoutAuth = () => {
+        return (
+            <div>
+                <Button variant="contained" color="primary" className={classes.authButtons} onClick={() => doLogout(userContext)}>
+                    {`Logout`}
+                </Button>
+            </div>
+        );
+    };
     
     const renderNavButtons = () => {
     
@@ -118,6 +159,8 @@ const NavBar = () => {
                 <Toolbar>
                     {renderLogo()}
                     {renderNavButtons()}
+                    <div className={classes.grow}/>
+                    {userContext.isUserLoggedIn() ? renderLogoutAuth() : renderLoginAuth()}
                 </Toolbar>
             </AppBar>
         </div>

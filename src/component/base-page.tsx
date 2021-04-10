@@ -9,6 +9,9 @@ import LandingPage from './landing/landing-page';
 import LeaderboardPage from './comp/leaderboard-page';
 import RulesPage from './comp/rules-page';
 import UserPage from './user/user-page';
+import LoginPage from './auth/login-page';
+import RegisterPage from './auth/register-page';
+
 import { login } from '../service/auth-service';
 import { LoginUserRequest } from '../transport/auth';
 
@@ -71,6 +74,8 @@ const BasePage = () => {
                 <Route exact path="/rules" component={RulesPage}/>
                 <Route exact path="/leaderboard" component={LeaderboardPage}/>
                 <Route exact path="/user" component={UserPage}/>
+                <Route exact path="/login" component={LoginPage}/>
+                <Route exact path="/register" component={RegisterPage}/>
             </main>
         </div>
     );

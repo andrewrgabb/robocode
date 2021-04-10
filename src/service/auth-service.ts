@@ -1,6 +1,7 @@
 import {
     getLoginUrl,
     getRegisterUrl,
+    getLogoutUrl,
 } from '../paths/api';
 import {
     LoginUserRequest,
@@ -8,6 +9,8 @@ import {
 } from "../transport/auth";
 import {doPost} from "./base-service";
 import {cyrb53} from '../util/encryption';
+import React from 'react';
+import { AnyARecord } from 'node:dns';
 
 //import Cookies from 'js-cookie'; ? ever required ?
 
@@ -37,4 +40,19 @@ export const register = async(registrationRequest: RegisterUserRequest) => {
     }
     
     return response;
+}
+
+export const logout = async() => {
+    return await doPost(getLogoutUrl(), {});
+};
+
+export const doLogout = async(userContext: any) => {
+
+
+    const response = await logout();
+    if (!response.ok) {
+        throw new Error('Logout failed');
+    }
+
+    userContext.setCurrentUsername(null);
 }
