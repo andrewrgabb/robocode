@@ -53,6 +53,8 @@ const RegisterPage = () => {
         const properRegisterDetails: RegisterUserRequest = new RegisterUserRequest(registerDetails.username, registerDetails.password, registerDetails.email);
 
         const response = await register(properRegisterDetails);
+
+        // TODO: Update stuff here
         console.log(response);
     }
 
