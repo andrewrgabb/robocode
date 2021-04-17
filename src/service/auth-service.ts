@@ -32,13 +32,7 @@ export const register = async(registrationRequest: RegisterUserRequest) => {
     const encryptedPassword: number = cyrb53(registrationRequest.password);
     registrationRequest.password = encryptedPassword.toString();
 
-    let response = await doPost(getRegisterUrl(), registrationRequest);
-
-    if (!response.ok) {
-        return null;
-    }
-    
-    return response;
+    return await doPost(getRegisterUrl(), registrationRequest);
 }
 
 export const logout = async() => {
