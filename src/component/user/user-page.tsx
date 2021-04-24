@@ -2,33 +2,35 @@ import React from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const styles = makeStyles(theme => ({
+    userContent: {
+        display: `flex`,
+        flexDirection: `column`,
+        alignItems: `center`,
+        justifyContent: `start`,
+        padding: `0px 0px 10px 0px`,
+    },
     titleContainer: {
-        height: `100px`,
+        height: `40px`,
         color: `rgba(20,20,20,0.98)`,
         textAlign: `center`,
         fontSize: `40px`,
     },
-    subtitleContainer: {
-        height: `100px`,
-        color: `rgba(20,20,20,0.98)`,
-        textAlign: `center`,
-        fontSize: `28px`,
-    }
 }));
+
 
 const UserPage = () => {
 
     const classes = styles();
 
     return (
-        <React.Fragment>
+        <div className={classes.userContent}>
             <h1 className={classes.titleContainer}>
-                {`Welcome to the User Page!`}
+                {`Rules`}
             </h1>
-            <h2 className={classes.subtitleContainer}>
-                {`This year's challenge is Auction's Eleven, a game about auctions, communication protocols, and adversarial strategy.`}
-            </h2>
-        </React.Fragment>
+            <div>
+                Submit code here.
+            </div>
+        </div>
     )
 }
 
