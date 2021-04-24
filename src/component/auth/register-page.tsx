@@ -1,7 +1,5 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Grid from "@material-ui/core/Grid";
-import {RegisterUserRequest} from '../../transport/auth';
 import {register} from '../../service/auth-service';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -12,7 +10,7 @@ import {isUsernameValid, isPasswordValid, isEmailValid} from "./validator";
 import withWidth, {isWidthDown} from "@material-ui/core/withWidth";
 import Tooltip from "@material-ui/core/Tooltip";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import {Lock, Visibility, VisibilityOff} from "@material-ui/icons";
+import {AccountCircle, Email, Lock, Visibility, VisibilityOff} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 
 const styles = makeStyles(theme => ({
@@ -29,7 +27,7 @@ const styles = makeStyles(theme => ({
         fontSize: `40px`,
     },
     inputContainer: {
-        minHeight: `440px`,
+        minHeight: `40px`,
         display: `flex`,
         flexDirection: `column`,
         justifyContent: `space-between`,
@@ -42,10 +40,11 @@ const styles = makeStyles(theme => ({
     formInput: {
         margin: `20px 0px 20px 0px`,
     },
-    signUpButton: {
+    continueButton: {
         color: 'white',
         fontWeight: 'bold',
         textTransform: "capitalize",
+        padding: `10px`,
     },
     errorPanel: {
         paddingBottom: 10 + 'px',
@@ -144,7 +143,6 @@ const RegisterPage = (props: any) => {
             return;
         }
 
-        // setLoginFailed
         const registerUserRequest = {
             username: registerDetails.username,
             email: registerDetails.email,
@@ -254,6 +252,13 @@ const RegisterPage = (props: any) => {
                     variant="outlined"
                     error={error.username}
                     helperText={error.username ? 'Invalid username.' : ''}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <AccountCircle/>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             </React.Fragment>);
     }
@@ -272,6 +277,14 @@ const RegisterPage = (props: any) => {
                     variant="outlined"
                     error={error.email}
                     helperText={error.email ? 'Invalid email.' : ''}
+                    InputProps={{
+                        autoComplete: 'username',
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <Email/>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             </React.Fragment>);
     }
@@ -347,18 +360,19 @@ const RegisterPage = (props: any) => {
     }
 
     const renderButton = () => {
-        return (<Box display="flex"
+        return (
+            <Box display="flex"
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
                 mt={2}>
-            <Button className={classes.signUpButton}
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth>
-                {`Continue`}
-            </Button>
+                <Button className={classes.continueButton}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth>
+                    {`Continue`}
+                </Button>
             </Box>
         );
     }

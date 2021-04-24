@@ -25,10 +25,10 @@ const UserPage = () => {
     return (
         <div className={classes.userContent}>
             <h1 className={classes.titleContainer}>
-                {`Rules`}
+                {`My Account`}
             </h1>
             <div>
-                Submit code here.
+                Submit code here. Also view stats and user info.
             </div>
         </div>
     )

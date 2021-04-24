@@ -104,6 +104,4 @@ export default BasePage;
 
         console.log(log);
     }
-
-
     */

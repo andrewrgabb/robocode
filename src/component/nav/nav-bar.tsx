@@ -9,6 +9,7 @@ import UserContext from "../../context/user-context";
 import Button from "@material-ui/core/Button";
 
 import {doLogout} from '../../service/auth-service'
+import { useHistory } from "react-router-dom";
 
 const styles = makeStyles(theme => ({
     grow: {
@@ -84,6 +85,7 @@ const NavBar = () => {
 
     const classes = styles();
     const userContext = useContext(UserContext);
+    const history = useHistory();
 
     const renderLogo = () => {
 
@@ -119,10 +121,16 @@ const NavBar = () => {
         );
     };
 
+    const logout = () => {
+        doLogout(userContext);
+        history.push('/')
+    }
+
+
     const renderLogoutAuth = () => {
         return (
             <div>
-                <Button variant="contained" color="primary" className={classes.authButtons} onClick={() => doLogout(userContext)}>
+                <Button variant="contained" color="primary" className={classes.authButtons} onClick={() => {logout()}}>
                     {`Logout`}
                 </Button>
             </div>

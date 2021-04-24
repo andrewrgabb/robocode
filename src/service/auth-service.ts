@@ -9,9 +9,6 @@ import {
 } from "../transport/auth";
 import {doPost} from "./base-service";
 import {cyrb53} from '../util/encryption';
-import React from 'react';
-
-//import Cookies from 'js-cookie'; ? ever required ?
 
 export const login = async(loginRequest: LoginUserRequest) => {
 
@@ -39,8 +36,9 @@ export const logout = async() => {
     return await doPost(getLogoutUrl(), {});
 };
 
-export const doLogout = async(userContext: any) => {
 
+
+export const doLogout = async(userContext: any) => {
 
     const response = await logout();
     if (!response.ok) {
