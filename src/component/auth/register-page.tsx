@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import {RegisterUserRequest} from '../../transport/auth';
@@ -9,6 +9,11 @@ import Box from "@material-ui/core/Box";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import {isUsernameValid, isPasswordValid, isEmailValid} from "./validator";
+import withWidth, {isWidthDown} from "@material-ui/core/withWidth";
+import Tooltip from "@material-ui/core/Tooltip";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import {Lock, Visibility, VisibilityOff} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
 
 const styles = makeStyles(theme => ({
     root: {
@@ -24,9 +29,10 @@ const styles = makeStyles(theme => ({
         fontSize: `40px`,
     },
     inputContainer: {
-        minHeight: `40px`,
+        minHeight: `440px`,
         display: `flex`,
         flexDirection: `column`,
+        justifyContent: `space-between`,
         alignItems: `center`,
         backgroundColor: `rgba(250,250,250,0.98)`,
         borderRadius: `20px`,
@@ -101,7 +107,7 @@ const initialError: ErrorType = {
 
 
 
-const RegisterPage = () => {
+const RegisterPage = (props: any) => {
 
     const classes = styles();
 
@@ -109,6 +115,7 @@ const RegisterPage = () => {
     const [registerError, setRegisterError] = useState<registerErrorType>(inititalRegisterError);
     const [error, setError] = useState<ErrorType>(initialError);
     const [registrationSucceeded, setRegistrationSucceeded] = useState<boolean>(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
     const validateForm = () => {
         const errors: ErrorType = {
@@ -146,7 +153,7 @@ const RegisterPage = () => {
 
         const registrationResponse = await register(registerUserRequest);
 
-        console.log(registrationResponse);
+        //console.log(registrationResponse);
 
         if (!registrationResponse.ok) {
             const message = await registrationResponse.text();
@@ -213,6 +220,26 @@ const RegisterPage = () => {
         }
     }
 
+    const passwordRequirementTooltip = () => {
+        return (<div>
+            <span style={{display: 'block'}}>- More than 6 characters</span>
+            <span style={{display: 'block'}}>- At least one number</span>
+        </div>);
+    }
+
+    const getTooltipPlacement = () => {
+        return isWidthDown('xs', props.width) ? "top" : "right";
+    }
+
+    const handleClickShowConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
+    const handleMouseDownConfirmPassword = (event: any) => {
+        event.preventDefault();
+    };
+
+
     const renderUsernameSection = () => {
         return (
             <React.Fragment>
@@ -252,30 +279,70 @@ const RegisterPage = () => {
     const renderPasswordSection = () => {
         return (
             <React.Fragment>
-                <TextField
-                    className={classes.formInput}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updatePassword(e.target.value)}
-                    label="Password"
-                    value={registerDetails.password}
-                    autoFocus
-                    required
-                    fullWidth
-                    variant="outlined"
-                    error={error.password}
-                    helperText={error.password ? 'Invalid password.' : ''}
-                />
-                <TextField
-                    className={classes.formInput}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateConfirmPassword(e.target.value)}
-                    label="Confirm Password"
-                    value={registerDetails.confirmPassword}
-                    autoFocus
-                    required
-                    fullWidth
-                    variant="outlined"
-                    error={error.confirmPassword}
-                    helperText={getConfirmPasswordErrorText()}
-                />
+                <Tooltip placement={getTooltipPlacement()}
+                         arrow
+                         enterTouchDelay={0}
+                         title={passwordRequirementTooltip()}>
+                    <TextField
+                        className={classes.formInput}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updatePassword(e.target.value)}
+                        label="Password"
+                        value={registerDetails.password}
+                        autoFocus
+                        required
+                        fullWidth
+                        variant="outlined"
+                        error={error.password}
+                        helperText={error.password ? 'Invalid password.' : ''}
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        InputProps={{
+                            autoComplete: 'new-password',
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Lock/>
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton tabIndex={-1} onClick={handleClickShowConfirmPassword} onMouseDown={handleMouseDownConfirmPassword}>
+                                        {showConfirmPassword ? <Visibility/> : <VisibilityOff/>}
+                                    </IconButton>
+                                </InputAdornment>)
+                        }}
+                    />
+                </Tooltip>
+                <Tooltip placement={getTooltipPlacement()}
+                         arrow
+                         enterTouchDelay={0}
+                         title={passwordRequirementTooltip()}>
+                    <TextField
+                        className={classes.formInput}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateConfirmPassword(e.target.value)}
+                        label="Confirm Password"
+                        value={registerDetails.confirmPassword}
+                        autoFocus
+                        required
+                        fullWidth
+                        variant="outlined"
+                        error={error.confirmPassword}
+                        helperText={getConfirmPasswordErrorText()}
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        InputProps={{
+                            autoComplete: 'new-password',
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Lock/>
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton tabIndex={-1} onClick={handleClickShowConfirmPassword} onMouseDown={handleMouseDownConfirmPassword}>
+                                        {showConfirmPassword ? <Visibility/> : <VisibilityOff/>}
+                                    </IconButton>
+                                </InputAdornment>)
+                        }}
+                    />
+                </Tooltip>
             </React.Fragment>);
     }
 
@@ -318,4 +385,4 @@ const RegisterPage = () => {
     )
 }
 
-export default RegisterPage;
+export default withWidth()(RegisterPage);

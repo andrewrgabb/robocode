@@ -7,6 +7,8 @@ const styles = makeStyles(theme => ({
         display: `flex`,
         justifyContent: `center`,
         flexDirection: `row`,
+        flexWrap: `wrap`,
+        padding: `2%`,
     },
     titlesContainer: {
         display: `flex`,
@@ -14,23 +16,23 @@ const styles = makeStyles(theme => ({
         justifyContent: `start`,
         alignItems: `center`,
         minWidth: `600px`,
+        margin: `0px`,
     },
     titleContainer: {
-        padding: `10px`,
+        padding: `1%`,
         color: `rgba(20,20,20,0.98)`,
         textAlign: `center`,
         fontSize: `40px`,
-        margin: `20px 0px 20px 0px`,
+        margin: `0px`,
     },
     subtitleContainer: {
-        padding: `10px`,
+        padding: `1%`,
         color: `rgba(20,20,20,0.98)`,
         textAlign: `center`,
         fontSize: `24px`,
-        margin: `0px 0px 20px 0px`,
     },
     splashImage: {
-        width: `50%`,
+        width: `70%`,
         minWidth: `600px`,
     },
 }));
