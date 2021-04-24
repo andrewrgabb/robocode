@@ -6,9 +6,18 @@ import {
     Ranking,
 } from "../../transport/comp";
 
+import Table from './leaderboard-table';
+
 const styles = makeStyles(theme => ({
+    leaderboardContent: {
+        display: `flex`,
+        flexDirection: `column`,
+        alignItems: `center`,
+        justifyContent: `start`,
+        padding: `0px 0px 10px 0px`,
+    },
     titleContainer: {
-        height: `100px`,
+        height: `40px`,
         color: `rgba(20,20,20,0.98)`,
         textAlign: `center`,
         fontSize: `40px`,
@@ -21,9 +30,7 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-type DisplayProps = {
-    leaderboard: Ranking[] | null,
-}
+
 
 
 const LeaderboardPage = () => {
@@ -46,31 +53,14 @@ const LeaderboardPage = () => {
             setLeaderboard(newLeaderboard);
         }
     }
-
-    const displayLeaderboard = ({leaderboard}: DisplayProps) => {
-
-        if (null == leaderboard) {
-            return null;
-        }
-
-        return leaderboard.map((entry) => 
-            (<div key={entry.name}>
-                {`${entry.name} | ${entry.elo}`}
-            </div>))
-    }
-
+    
     return (
-        <React.Fragment>
+        <div className={classes.leaderboardContent}>
             <h1 className={classes.titleContainer}>
-                {`Welcome to Leaderboard Page!`}
+                {`Leaderboard`}
             </h1>
-            <h2 className={classes.subtitleContainer}>
-                {`This year's challenge is Auction's Eleven, a game about auctions, communication protocols, and adversarial strategy.`}
-            </h2>
-            <div>
-                {displayLeaderboard({leaderboard})}
-            </div>
-        </React.Fragment>
+            <Table leaderboard={leaderboard} />
+        </div>
     )
 }
 
