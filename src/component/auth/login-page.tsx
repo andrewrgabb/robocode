@@ -205,7 +205,7 @@ const LoginPage = () => {
             <h1 className={classes.titleContainer}>
                 {`Login`}
             </h1>
-            <div className={classes.inputContainer}>
+            <div style={{display: `block`}} className={classes.inputContainer}>
                 <form onSubmit={(event) => handleLogin(event)}>
                     {renderLoginFailedBanner()}
                     {renderUsernameSection()}
