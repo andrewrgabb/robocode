@@ -3,7 +3,7 @@ import React from "react";
 import loading from '../../assets/images/loading.gif';
 import {makeStyles} from '@material-ui/core/styles';
 
-const styles = makeStyles(theme => ({
+const styles = makeStyles({
     root: {
         display: "flex",
         flexDirection: "column",
@@ -15,9 +15,9 @@ const styles = makeStyles(theme => ({
         width: '200px',
         maxWidth: '50%',
     }
-}));
+});
 
-const LoadingGif =  () => {
+const Loading =  () => {
 
     const classes = styles();
 
@@ -28,4 +28,4 @@ const LoadingGif =  () => {
     );
 }
 
-export default LoadingGif;
+export default Loading;

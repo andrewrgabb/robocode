@@ -7,7 +7,7 @@ import BasePage from './component/base-page';
 import {UserProvider} from "./context/user-context";
 import {getCurrentUser} from "./service/user-service";
 
-import LoadingGif from "./component/reusable/loading-gif";
+import LoadingGif from "./component/reusable/loading";
 
 const theme = createMuiTheme({
     palette: {
