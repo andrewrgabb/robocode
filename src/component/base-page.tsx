@@ -3,8 +3,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Route} from "react-router-dom";
 import NavBar from './nav/nav-bar';
 
-
-
 import LandingPage from './landing/landing-page';
 import LeaderboardPage from './comp/leaderboard-page';
 import RulesPage from './comp/rules-page';

@@ -7,7 +7,7 @@ import BasePage from './component/base-page';
 import {UserProvider} from "./context/user-context";
 import {getCurrentUser} from "./service/user-service";
 
-import ProgressSpinner from "./component/reusable/progress-spinner";
+import LoadingGif from "./component/reusable/loading-gif";
 
 const theme = createMuiTheme({
     palette: {
@@ -58,7 +58,7 @@ const App = () => {
     }, [loginCalled, tryLogin]);
 
     if (!loginCalled) {
-        return <ProgressSpinner/>;
+        return <LoadingGif/>;
     }
 
     return (
