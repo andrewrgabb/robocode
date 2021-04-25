@@ -35,3 +35,16 @@ const UserPage = () => {
 }
 
 export default UserPage;
+
+/*
+const fetchStat = async() => {
+
+    const stat = await getStat();
+
+    console.log(stat);
+
+    const log = await getLog();
+
+    console.log(log);
+}
+*/
