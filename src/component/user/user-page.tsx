@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { getLog, getStat } from '../../service/user-service';
-import {DropzoneAreaBase, FileObject} from 'material-ui-dropzone'
+import {useDropzone} from 'react-dropzone';
+import { FileWithPath } from "file-selector";
 
 const styles = makeStyles(theme => ({
     userContent: {
@@ -28,9 +29,22 @@ const styles = makeStyles(theme => ({
         padding: `20px`,
         width: `auto`,
         fontSize: `24px`,
+        lineHeight: `32px`,
+    },
+    subtitle: {
+        textAlign: `center`,
     },
     contentItem: {
+        marginTop: `1em`,
         minHeight: `2em`,
+    },
+    dropdown: {
+        border: `2px dashed grey`,
+    },
+    dropdownContent: {
+        padding: `1em`,
+        fontSize: `20px`,
+        cursor: `pointer`,
     }
 }));
 
@@ -45,7 +59,19 @@ const UserPage = () => {
 
     const [stat, setStat] = useState<UserStat | undefined>(undefined);
 
-    const [files, setFiles] = useState<FileObject[]>([]);
+    const {
+        acceptedFiles,
+        fileRejections,
+        getRootProps,
+        getInputProps
+      } = useDropzone({
+        accept: 'image/jpeg, image/png',
+        maxFiles: 1,
+      });
+
+    useEffect(() => {
+        console.log(acceptedFiles);
+    }, [acceptedFiles])
 
     const fetchStat = async() => {
 
@@ -99,18 +125,44 @@ const UserPage = () => {
         );
     }
 
+    const acceptedFileItems = acceptedFiles.map((file: FileWithPath) => (
+        <li key={file.path}>
+          {file.path} - {file.size} bytes
+        </li>
+    ));
+
+    const renderDownloadLinks = () => {
+
+        return (
+            <React.Fragment>
+                <div>
+                    Download the coding template.
+                </div>
+                <div>
+                    Download your latest log file.
+                </div>
+            </React.Fragment>
+        );
+    }
+
     const renderSubmitCode = () => {
 
         return (
             <div className={classes.contentItem}>
-                {`Submit Code here: ...`}
-                <DropzoneAreaBase 
-                    acceptedFiles={['.png']} 
-                    filesLimit={1} 
-                    maxFileSize={100000} 
-                    fileObjects={files} 
-                    onAdd={(newFiles) => setFiles(newFiles)} 
-                />
+                <div className={classes.subtitle}>
+                    {`Code Submission`}
+                </div>
+                <div className={classes.dropdown}>
+                    <div {...getRootProps({ className: 'dropzone' })}>
+                        <input {...getInputProps()} />
+                        <div className={classes.dropdownContent}>
+                            <p>Drag 'n' drop some files here, or click to select files</p>
+                        </div>
+                    </div>
+                </div>
+                {`Uploaded File`}
+                {acceptedFileItems}
+                {`Submit Button`}
             </div>
 
             //onChange={(file) => handleUpload(file)}
@@ -129,6 +181,7 @@ const UserPage = () => {
             </h1>
             <div className={classes.contentContainer} >
                 {renderRanking()}
+                {renderDownloadLinks()}
                 {renderSubmitCode()}
             </div>
         </div>
