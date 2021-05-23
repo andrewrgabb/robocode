@@ -1,5 +1,5 @@
 export class Ranking {
-    
+
     name: string;
     elo: string;
 
