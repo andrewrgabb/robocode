@@ -17,9 +17,9 @@ interface Row {
 }
 
 const columns = [
-  { id: "rank", label: "Rank", minWidth: 120 },
-  { id: "name", label: "Name", minWidth: 120 },
-  { id: "elo", label: "ELO Rating", minWidth: 120 },
+  { id: "rank", label: "Rank", minWidth: 40 },
+  { id: "name", label: "Name", minWidth: 40 },
+  { id: "elo", label: "ELO Rating", minWidth: 40 },
 ];
 
 const useStyles = makeStyles({
@@ -36,20 +36,16 @@ interface DisplayProps {
   leaderboard: Ranking[] | null;
 }
 
+const rowsPerPage: number = 10;
+
 const LeaderboardTable: FC<DisplayProps> = (props) => {
   const { leaderboard } = props;
 
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event: any, newPage: any) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   return null === leaderboard ? null : (
@@ -96,13 +92,12 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[]}
         component="div"
         count={leaderboard.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
   );
