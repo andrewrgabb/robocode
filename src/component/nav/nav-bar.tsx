@@ -104,19 +104,17 @@ const NavBar: FC<NavBarProps> = (props) => {
   const history = useHistory();
 
   const renderHamburger = () => {
-    if (userContext.isUserLoggedIn()) {
-      return (
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          onClick={drawerToggle}
-          color="default"
-          aria-label="open drawer"
-        >
-          <img className={`${classes.logoImage}`} alt="logo" src={logo} />
-        </IconButton>
-      );
-    }
+    return (
+      <IconButton
+        edge="start"
+        className={classes.menuButton}
+        onClick={drawerToggle}
+        color="default"
+        aria-label="open drawer"
+      >
+        <img className={`${classes.logoImage}`} alt="logo" src={logo} />
+      </IconButton>
+    );
   };
 
   const renderLogo = () => {
