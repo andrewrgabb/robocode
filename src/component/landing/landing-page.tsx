@@ -28,7 +28,7 @@ const styles = makeStyles((theme) => ({
       fontSize: `28px`,
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: `14px`,
+      fontSize: `20px`,
     },
   },
   subtitleContainer: {
@@ -40,7 +40,7 @@ const styles = makeStyles((theme) => ({
       fontSize: `18px`,
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: `12px`,
+      fontSize: `11px`,
     },
   },
   splashImage: {
