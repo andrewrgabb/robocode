@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 import NavBar from "./nav/nav-bar";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import withWidth from "@material-ui/core/withWidth";
 
 import LandingPage from "./landing/landing-page";
 import LeaderboardPage from "./comp/leaderboard-page";
@@ -11,6 +12,7 @@ import UserPage from "./user/user-page";
 import LoginPage from "./auth/login-page";
 import RegisterPage from "./auth/register-page";
 import NavDrawer from "./nav/nav-drawer";
+import { PinDropSharp } from "@material-ui/icons";
 
 export const drawerWidth = 240;
 const styles = makeStyles((theme) => ({

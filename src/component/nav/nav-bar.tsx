@@ -88,6 +88,8 @@ const styles = makeStyles((theme) => ({
     textTransform: "capitalize",
     [theme.breakpoints.down("xs")]: {
       fontSize: "smaller",
+      marginLeft: "2px",
+      marginRight: "2px",
     },
   },
 }));
