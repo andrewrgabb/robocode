@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { getLog, getStat } from "../../service/user-service";
+import { getStat, submitCode } from "../../service/user-service";
 import { useDropzone } from "react-dropzone";
 import { FileWithPath } from "file-selector";
 import { CloudDownloadRounded } from "@material-ui/icons";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+
+import { getLogUrl } from "../../paths/api";
 
 const styles = makeStyles((theme) => ({
   userContent: {
@@ -56,10 +60,17 @@ const styles = makeStyles((theme) => ({
   rankingBox: {
     minHeight: `1em`,
     fontWeight: `bold`,
+    marginBottom: `1.2rem`,
+  },
+  continueButton: {
+    color: "white",
+    fontWeight: "bold",
+    textTransform: "capitalize",
+    padding: `10px`,
   },
   downloadsBox: {
     minHeight: `4rem`,
-    marginBottom: `0.3rem`,
+    marginBottom: `1.5rem`,
   },
   downloadsText: {
     display: `flex`,
@@ -74,19 +85,25 @@ const styles = makeStyles((theme) => ({
   downloadLink: {
     textDecoration: `underline`,
     cursor: `pointer`,
+    color: `black`,
   },
   submissionBox: {
     minHeight: `2em`,
-    fontStyle: `italic`,
   },
+  submissionText: {},
   dropfield: {
     border: `2px dashed grey`,
+    marginBottom: `1rem`,
   },
   dropfieldContent: {
     padding: `1em`,
-    fontSize: `20px`,
     cursor: `pointer`,
     textAlign: `center`,
+    fontStyle: `italic`,
+  },
+  buttonBox: {
+    display: `flex`,
+    justifyContent: `center`,
   },
 }));
 
@@ -100,11 +117,10 @@ const UserPage = () => {
 
   const [stat, setStat] = useState<UserStat | undefined>(undefined);
 
-  const { acceptedFiles, fileRejections, getRootProps, getInputProps } =
-    useDropzone({
-      accept: "image/jpeg, image/png",
-      maxFiles: 1,
-    });
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    accept: "image/jpeg, image/png",
+    maxFiles: 1,
+  });
 
   useEffect(() => {
     console.log(acceptedFiles);
@@ -125,25 +141,14 @@ const UserPage = () => {
       total: stat.total,
     };
     setStat(newStat);
-
-    if (stat.hasLog) {
-      fetchLog();
-    }
   };
 
-  const fetchLog = async () => {
-    const log = await getLog();
+  const handleUpload = () => {
+    if (acceptedFiles.length > 0) {
+      const fileToSubmit: File = acceptedFiles[0];
 
-    if (null === log) {
-      return;
+      submitCode(fileToSubmit);
     }
-
-    console.log("log: ");
-    console.log(log);
-  };
-
-  const handleUpload = (file: File[]) => {
-    console.log("hi");
   };
 
   const renderRanking = () => {
@@ -169,17 +174,45 @@ const UserPage = () => {
       <div className={classes.downloadsBox}>
         <p className={classes.downloadsText}>
           <CloudDownloadRounded className={classes.downloadIcon} />
-          <span className={classes.downloadLink}>
-            Click to download the coding template
-          </span>
+          <a href={getLogUrl()} target="_blank" rel="noopener noreferrer">
+            <span className={classes.downloadLink}>
+              Click to download the coding template
+            </span>
+          </a>
         </p>
         <p className={classes.downloadsText}>
           <CloudDownloadRounded className={classes.downloadIcon} />
-          <span className={classes.downloadLink}>
-            Click to download your latest log file
-          </span>
+          <a href={getLogUrl()} target="_blank" rel="noopener noreferrer">
+            <span className={classes.downloadLink}>
+              Click to download your latest log file
+            </span>
+          </a>
         </p>
       </div>
+    );
+  };
+
+  const renderButton = () => {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        mt={2}
+        width="70%"
+      >
+        <Button
+          className={classes.continueButton}
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => handleUpload()}
+        >
+          {`Submit`}
+        </Button>
+      </Box>
     );
   };
 
@@ -195,12 +228,15 @@ const UserPage = () => {
             </div>
           </div>
         </div>
-        {`Uploaded File`}
-        {acceptedFileItems}
-        {`Submit Button`}
-      </div>
+        <div>
+          <span className={classes.subtitle}>{`Uploaded File: `}</span>
 
-      //onChange={(file) => handleUpload(file)}
+          {acceptedFileItems.length > 0
+            ? acceptedFileItems
+            : "(Nothing uploaded yet)"}
+        </div>
+        <div className={classes.buttonBox}>{renderButton()}</div>
+      </div>
     );
   };
 

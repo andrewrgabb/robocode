@@ -2,7 +2,6 @@ import {
     getCurrentUserUrl,
     getStatUrl,
     getSubmitUrl,
-    getLogUrl,
 } from '../paths/api';
 import {doGet, doPost} from "./base-service";
 import {
@@ -38,7 +37,6 @@ export const getStat = async(): Promise<Stat | null> => {
     return json;
 }
 
-// Needs to be typed
 export const submitCode = async(file: File): Promise<any> => {
 
     // May need to be changed
@@ -49,20 +47,6 @@ export const submitCode = async(file: File): Promise<any> => {
         return null;
     }
 
-    let json = await response.json() ;
-    return json;
-}
-
-// Needs to be typed
-export const getLog = async(): Promise<any> => {
-
-    const response = await doGet(getLogUrl());
-
-    if (!response.ok) {
-        console.log("Error fetching log data");
-        return null;
-    }
-
-    let json = await response.json() ;
+    let json = await response.json(); // TODO: what is even returned lol
     return json;
 }
