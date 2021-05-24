@@ -14,6 +14,13 @@ const styles = makeStyles((theme) => ({
     color: `rgba(20,20,20,0.98)`,
     textAlign: `center`,
     fontSize: `40px`,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: `34px`,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: `28px`,
+      height: `34px`,
+    },
   },
   gdoc: {
     minHeight: `80vh`,

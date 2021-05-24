@@ -20,27 +20,32 @@ const styles = makeStyles((theme) => ({
   },
   titleContainer: {
     padding: `1%`,
+    width: `90vw`,
+    maxWidth: `1000px`,
     color: `rgba(20,20,20,0.98)`,
     textAlign: `center`,
     fontSize: `40px`,
-    margin: `0px`,
+    margin: `0.4rem 0rem 0.4rem 0rem`,
     [theme.breakpoints.down("sm")]: {
-      fontSize: `28px`,
+      fontSize: `34px`,
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: `20px`,
+      fontSize: `28px`,
     },
   },
   subtitleContainer: {
     padding: `1%`,
+    width: `90vw`,
+    maxWidth: `1000px`,
     color: `rgba(20,20,20,0.98)`,
     textAlign: `center`,
     fontSize: `24px`,
+    margin: `0.4rem 0rem 0.4rem 0rem`,
     [theme.breakpoints.down("sm")]: {
-      fontSize: `18px`,
+      fontSize: `20px`,
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: `11px`,
+      fontSize: `16px`,
     },
   },
   splashImage: {

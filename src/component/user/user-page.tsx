@@ -18,6 +18,13 @@ const styles = makeStyles((theme) => ({
     height: `40px`,
     textAlign: `center`,
     fontSize: `40px`,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: `34px`,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: `28px`,
+      height: `34px`,
+    },
   },
   contentContainer: {
     minHeight: `10vw`,
@@ -32,28 +39,45 @@ const styles = makeStyles((theme) => ({
     maxWidth: `600px`,
     fontSize: `24px`,
     lineHeight: `40px`,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: `18px`,
+      lineHeight: `24px`,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: `14px`,
+      lineHeight: `18px`,
+    },
   },
   subtitle: {
-    textAlign: `center`,
+    textAlign: `left`,
+    fontWeight: `bold`,
+    marginBottom: `6px`,
   },
   rankingBox: {
     minHeight: `1em`,
+    fontWeight: `bold`,
   },
   downloadsBox: {
-    minHeight: `4em`,
+    minHeight: `4rem`,
+    marginBottom: `0.3rem`,
   },
   downloadsText: {
     display: `flex`,
     alignItems: `center`,
+    margin: `0.7rem 0rem 0.7rem 0rem`,
   },
   downloadIcon: {
-    marginBottom: `2px`,
     width: `28px`,
     height: `28px`,
     marginRight: `8px`,
   },
+  downloadLink: {
+    textDecoration: `underline`,
+    cursor: `pointer`,
+  },
   submissionBox: {
     minHeight: `2em`,
+    fontStyle: `italic`,
   },
   dropfield: {
     border: `2px dashed grey`,
@@ -62,6 +86,7 @@ const styles = makeStyles((theme) => ({
     padding: `1em`,
     fontSize: `20px`,
     cursor: `pointer`,
+    textAlign: `center`,
   },
 }));
 
@@ -143,12 +168,16 @@ const UserPage = () => {
     return (
       <div className={classes.downloadsBox}>
         <p className={classes.downloadsText}>
-          <CloudDownloadRounded className={classes.downloadIcon} /> Download the
-          coding template.
+          <CloudDownloadRounded className={classes.downloadIcon} />
+          <span className={classes.downloadLink}>
+            Click to download the coding template
+          </span>
         </p>
         <p className={classes.downloadsText}>
-          <CloudDownloadRounded className={classes.downloadIcon} /> Download
-          your latest log file.
+          <CloudDownloadRounded className={classes.downloadIcon} />
+          <span className={classes.downloadLink}>
+            Click to download your latest log file
+          </span>
         </p>
       </div>
     );
@@ -162,7 +191,7 @@ const UserPage = () => {
           <div {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
             <div className={classes.dropfieldContent}>
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              <p>Drop your submission here, or click to upload</p>
             </div>
           </div>
         </div>
