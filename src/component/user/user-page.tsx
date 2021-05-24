@@ -6,6 +6,8 @@ import { FileWithPath } from "file-selector";
 import { CloudDownloadRounded } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
 
 import { getLogUrl } from "../../paths/api";
 
@@ -105,6 +107,18 @@ const styles = makeStyles((theme) => ({
     display: `flex`,
     justifyContent: `center`,
   },
+  errorTitle: {
+    fontWeight: "bold",
+  },
+  errorBox: {
+    display: `flex`,
+    justifyContent: `center`,
+  },
+  errorPanel: {
+    paddingBottom: 10 + "px",
+    textAlign: "left",
+    width: `70%`,
+  },
 }));
 
 interface UserStat {
@@ -112,10 +126,21 @@ interface UserStat {
   total: number;
 }
 
+interface LoginError {
+  error: boolean;
+  message: string;
+}
+
+const inititalLoginError: LoginError = {
+  error: false,
+  message: "",
+};
+
 const UserPage = () => {
   const classes = styles();
 
   const [stat, setStat] = useState<UserStat | undefined>(undefined);
+  const [loginError, setLoginError] = useState<LoginError>(inititalLoginError);
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
@@ -125,6 +150,11 @@ const UserPage = () => {
   useEffect(() => {
     console.log(acceptedFiles);
   }, [acceptedFiles]);
+
+  useEffect(() => {
+    fetchStat();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchStat = async () => {
     const stat = await getStat();
@@ -143,11 +173,20 @@ const UserPage = () => {
     setStat(newStat);
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (acceptedFiles.length > 0) {
       const fileToSubmit: File = acceptedFiles[0];
 
-      submitCode(fileToSubmit);
+      const submissionResponse = await submitCode(fileToSubmit);
+
+      if (!submissionResponse.ok) {
+        const message = await submissionResponse.text();
+        setLoginError({
+          error: true,
+          message: message,
+        });
+        return;
+      }
     }
   };
 
@@ -240,10 +279,22 @@ const UserPage = () => {
     );
   };
 
-  useEffect(() => {
-    fetchStat();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const renderSubmissionFailedBanner = () => {
+    if (loginError.error) {
+      return (
+        <div className={classes.errorBox}>
+          <Box className={classes.errorPanel}>
+            <Alert severity="error">
+              <AlertTitle className={classes.errorTitle}>
+                Submission failed
+              </AlertTitle>
+              {loginError.message}
+            </Alert>
+          </Box>
+        </div>
+      );
+    }
+  };
 
   return (
     <div className={classes.userContent}>
@@ -251,6 +302,7 @@ const UserPage = () => {
       <div className={classes.contentContainer}>
         {renderRanking()}
         {renderDownloadLinks()}
+        {renderSubmissionFailedBanner()}
         {renderSubmitCode()}
       </div>
     </div>

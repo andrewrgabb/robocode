@@ -63,22 +63,22 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-interface loginDetailsType {
+interface LoginDetails {
   username: string;
   password: string;
 }
 
-const initialLoginDetails: loginDetailsType = {
+const initialLoginDetails: LoginDetails = {
   username: "",
   password: "",
 };
 
-type loginErrorType = {
+interface LoginError {
   error: boolean;
   message: string;
-};
+}
 
-const inititalLoginError: loginErrorType = {
+const inititalLoginError: LoginError = {
   error: false,
   message: "",
 };
@@ -90,9 +90,8 @@ const LoginPage = () => {
   const history = useHistory();
 
   const [loginDetails, setLoginDetails] =
-    useState<loginDetailsType>(initialLoginDetails);
-  const [loginError, setLoginError] =
-    useState<loginErrorType>(inititalLoginError);
+    useState<LoginDetails>(initialLoginDetails);
+  const [loginError, setLoginError] = useState<LoginError>(inititalLoginError);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -118,7 +117,7 @@ const LoginPage = () => {
   };
 
   const updateUsername = (username: string) => {
-    const newLoginDetails: loginDetailsType = {
+    const newLoginDetails: LoginDetails = {
       ...loginDetails,
       username: username,
     };
@@ -126,7 +125,7 @@ const LoginPage = () => {
   };
 
   const updatePassword = (password: string) => {
-    const newLoginDetails: loginDetailsType = {
+    const newLoginDetails: LoginDetails = {
       ...loginDetails,
       password: password,
     };
