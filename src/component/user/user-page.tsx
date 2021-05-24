@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { getStat, submitCode } from "../../service/user-service";
 import { useDropzone } from "react-dropzone";
@@ -10,6 +10,7 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 
 import { getLogUrl } from "../../paths/api";
+import UserContext from "../../context/user-context";
 
 const styles = makeStyles((theme) => ({
   userContent: {
@@ -58,6 +59,9 @@ const styles = makeStyles((theme) => ({
     textAlign: `left`,
     fontWeight: `bold`,
     marginBottom: `6px`,
+  },
+  nameBox: {
+    minHeight: `1em`,
   },
   rankingBox: {
     minHeight: `1em`,
@@ -139,12 +143,15 @@ const inititalLoginError: LoginError = {
 const UserPage = () => {
   const classes = styles();
 
+  const userContext = useContext(UserContext);
+
   const [stat, setStat] = useState<UserStat | undefined>(undefined);
   const [loginError, setLoginError] = useState<LoginError>(inititalLoginError);
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    accept: "image/jpeg, image/png",
+    accept: ".py",
     maxFiles: 1,
+    maxSize: 3145728,
   });
 
   useEffect(() => {
@@ -196,9 +203,14 @@ const UserPage = () => {
     }
 
     return (
-      <div className={classes.rankingBox}>
-        {`Ranking: ${stat.ranking} / ${stat.total}`}
-      </div>
+      <React.Fragment>
+        <div
+          className={classes.nameBox}
+        >{`Welcome, ${userContext.currentUsername}.`}</div>
+        <div className={classes.rankingBox}>
+          {`Ranking: ${stat.ranking} / ${stat.total}`}
+        </div>
+      </React.Fragment>
     );
   };
 
@@ -264,6 +276,10 @@ const UserPage = () => {
             <input {...getInputProps()} />
             <div className={classes.dropfieldContent}>
               <p>Drop your submission here, or click to upload</p>
+              <p>
+                Limits: Only *.py files are accepted and the file size must be
+                less than 3mb
+              </p>
             </div>
           </div>
         </div>
