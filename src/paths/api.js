@@ -17,6 +17,9 @@ const STAT_URL = `${USER_ROOT_URL}/stat`;
 const SUBMIT_URL = `${USER_ROOT_URL}/submit`;
 const LOG_URL = `${USER_ROOT_URL}/log`;
 
+// api/codepack.zip
+const CODEPACK_URL = `${API_BASE_URL}/codepack.zip`;
+
 // api/leaderboard
 const LEADERBOARD_URL = `${API_BASE_URL}/leaderboard`;
 
@@ -28,6 +31,8 @@ export const getCurrentUserUrl = () => apiUrl(`${CURRENT_USER_URL}`);
 export const getStatUrl = () => apiUrl(`${STAT_URL}`);
 export const getSubmitUrl = () => apiUrl(`${SUBMIT_URL}`);
 export const getLogUrl = () => apiUrl(`${LOG_URL}`);
+
+export const getCodepackUrl = () => apiUrl(`${CODEPACK_URL}`);
 
 export const getLeaderboardUrl = () => apiUrl(`${LEADERBOARD_URL}`);
 

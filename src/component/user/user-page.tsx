@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 
-import { getLogUrl } from "../../paths/api";
+import { getLogUrl, getCodepackUrl } from "../../paths/api";
 import UserContext from "../../context/user-context";
 
 const styles = makeStyles((theme) => ({
@@ -225,7 +225,7 @@ const UserPage = () => {
       <div className={classes.downloadsBox}>
         <p className={classes.downloadsText}>
           <CloudDownloadRounded className={classes.downloadIcon} />
-          <a href={getLogUrl()} target="_blank" rel="noopener noreferrer">
+          <a href={getCodepackUrl()} target="_blank" rel="noopener noreferrer">
             <span className={classes.downloadLink}>
               Click to download the coding template
             </span>
