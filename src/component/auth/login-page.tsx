@@ -113,7 +113,7 @@ const LoginPage = () => {
     }
 
     userContext.setCurrentUsername(loginDetails.username);
-    history.push("/");
+    history.push("/user");
   };
 
   const updateUsername = (username: string) => {
