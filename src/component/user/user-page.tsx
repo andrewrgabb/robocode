@@ -11,6 +11,7 @@ import AlertTitle from "@material-ui/lab/AlertTitle";
 
 import { getLogUrl, getCodepackUrl } from "../../paths/api";
 import UserContext from "../../context/user-context";
+import { Competition } from "../../transport/competition";
 
 const styles = makeStyles((theme) => ({
   userContent: {
@@ -123,6 +124,11 @@ const styles = makeStyles((theme) => ({
     textAlign: "left",
     width: `70%`,
   },
+  smallRegisterOkText: {
+    textAlign: "center",
+    fontSize: "0.8em",
+    margin: "3vw"
+  }
 }));
 
 interface UserStat {
@@ -140,7 +146,12 @@ const inititalLoginError: LoginError = {
   message: "",
 };
 
-const UserPage = () => {
+type UserPageProps = {
+  compInfo: Competition,
+}
+
+const UserPage = (props: UserPageProps) => {
+  const { compInfo } = props;
   const classes = styles();
 
   const userContext = useContext(UserContext);
@@ -204,9 +215,6 @@ const UserPage = () => {
 
     return (
       <React.Fragment>
-        <div
-          className={classes.nameBox}
-        >{`Welcome, ${userContext.currentUsername}.`}</div>
         <div className={classes.rankingBox}>
           {`Ranking: ${stat.ranking} / ${stat.total}`}
         </div>
@@ -311,18 +319,35 @@ const UserPage = () => {
       );
     }
   };
-
-  return (
-    <div className={classes.userContent}>
-      <h1 className={classes.titleContainer}>{`My Account`}</h1>
-      <div className={classes.contentContainer}>
-        {renderRanking()}
-        {renderDownloadLinks()}
-        {renderSubmissionFailedBanner()}
-        {renderSubmitCode()}
+  if (compInfo.status == "launched" || compInfo.launchDate < Date.now()) {
+    return (
+      <div className={classes.userContent}>
+        <h1 className={classes.titleContainer}>{`My Account`}</h1>
+        <div className={classes.contentContainer}>
+          <div
+            className={classes.nameBox}
+          >{`Welcome, ${userContext.currentUsername}.`}</div>
+          {renderRanking()}
+          {renderDownloadLinks()}
+          {renderSubmissionFailedBanner()}
+          {renderSubmitCode()}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className={classes.userContent}>
+        <h1 className={classes.titleContainer}>{`My Account`}</h1>
+        <div className={classes.contentContainer}>
+          <div
+            className={classes.nameBox}
+          >{`Welcome, ${userContext.currentUsername}.`}</div>
+          <br></br>
+          <span className={classes.smallRegisterOkText}>You've successfully registered! Come back when the competition has started.</span>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default UserPage;

@@ -12,6 +12,7 @@ import { doLogout } from "../../service/auth-service";
 import { useHistory } from "react-router-dom";
 import { FC } from "react";
 import { IconButton } from "@material-ui/core";
+import { Competition } from "../../transport/competition";
 
 const styles = makeStyles((theme) => ({
   grow: {
@@ -96,10 +97,11 @@ const styles = makeStyles((theme) => ({
 
 interface NavBarProps {
   drawerToggle: () => void;
+  compInfo: Competition;
 }
 
 const NavBar: FC<NavBarProps> = (props) => {
-  const { drawerToggle } = props;
+  const { drawerToggle, compInfo} = props;
 
   const classes = styles();
   const userContext = useContext(UserContext);
@@ -133,6 +135,62 @@ const NavBar: FC<NavBarProps> = (props) => {
         </NavLink>
       </React.Fragment>
     );
+  };
+
+  const NavBarCompetitionState = () => {
+    let [timerText,setTimerText] = React.useState<number>(0);
+    React.useEffect(()=>{
+      setInterval(()=>{
+        setTimerText(compInfo.launchDate-Date.now());
+      },500);
+    },[]);
+    if (compInfo.status == "launched" || compInfo.launchDate < Date.now()){
+      return (
+        <React.Fragment>
+          <NavLink
+            className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
+            to={{
+              pathname: "/rules",
+              search: "",
+            }}
+          >
+            <span className={`${classes.menuButtonText}`}>Rules</span>
+          </NavLink>
+        </React.Fragment>
+      );
+    }else{
+      const toReadableTimeString= (dt:number)=>{
+        const output:string[] = [];
+        let interval =1000*60*60*24;
+        let ddt = dt; 
+        if (dt>interval){
+          output.push(`${(dt/interval)|0}d`);
+          dt -= ((dt/interval)|0) * interval; 
+        }
+        interval =1000*60*60; 
+        if (dt>interval){
+          output.push(`${(dt/interval)|0}h`);
+          dt -= ((dt/interval)|0) * interval; 
+        }
+        interval = 1000*60;
+        if (dt>interval){
+          output.push(`${(dt/interval)|0}m`);
+          dt -= ((dt/interval)|0) * interval; 
+        }
+        // only render seconds if total time is less than a day
+        if (ddt<1000*60*60*24){
+          output.push(`${(dt/1000)|0}s`);
+        }
+        return output.join(" "); 
+      }
+      // Create a timer
+      return (
+        <React.Fragment>
+            <span className={`${classes.menuButtonText}`}>{toReadableTimeString(timerText)} until launch</span>
+        </React.Fragment>
+      );
+    }
+
   };
 
   const renderLoginAuth = () => {
@@ -213,6 +271,7 @@ const NavBar: FC<NavBarProps> = (props) => {
         <Toolbar>
           {renderHamburger()}
           {renderLogo()}
+          <NavBarCompetitionState></NavBarCompetitionState>
           {renderNavButtons()}
           <div className={classes.grow} />
           {userContext.isUserLoggedIn()

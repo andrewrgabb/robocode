@@ -22,6 +22,7 @@ const CODEPACK_URL = `${API_BASE_URL}/codepack.zip`;
 
 // api/leaderboard
 const LEADERBOARD_URL = `${API_BASE_URL}/leaderboard`;
+const COMPETITIONINFO = `${API_BASE_URL}/competitionInfo`;
 
 export const getLoginUrl = () => apiUrl(`${LOGIN_URL}`);
 export const getRegisterUrl = () => apiUrl(`${REGISTER_URL}`);
@@ -35,7 +36,7 @@ export const getLogUrl = () => apiUrl(`${LOG_URL}`);
 export const getCodepackUrl = () => apiUrl(`${CODEPACK_URL}`);
 
 export const getLeaderboardUrl = () => apiUrl(`${LEADERBOARD_URL}`);
-
+export const getCompetitionInfoUrl = () => apiUrl(`${COMPETITIONINFO}`);
 // Appends the url to the correct environment
 export const apiUrl = (path) => {
     // Mostly unecessary 'if' statement, but still, a little more robust than not including it.
