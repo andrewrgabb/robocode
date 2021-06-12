@@ -19,6 +19,15 @@ export const getMobileHomeNavItem = () => {
 export const getTopNavItems = () => {
   return [
     {
+      text: "Rules",
+      loggedIn: ON_ALL_PAGES,
+      icon: <School />,
+      to: {
+        pathname: "/rules",
+        search: "",
+      },
+    },
+    {
       text: "Leaderboard",
       loggedIn: ON_ALL_PAGES,
       icon: <People />,

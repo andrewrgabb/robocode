@@ -145,19 +145,7 @@ const NavBar: FC<NavBarProps> = (props) => {
       },500);
     },[]);
     if (compInfo.status == "launched" || compInfo.launchDate < Date.now()){
-      return (
-        <React.Fragment>
-          <NavLink
-            className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
-            to={{
-              pathname: "/rules",
-              search: "",
-            }}
-          >
-            <span className={`${classes.menuButtonText}`}>Rules</span>
-          </NavLink>
-        </React.Fragment>
-      );
+      return null;
     }else{
       const toReadableTimeString= (dt:number)=>{
         const output:string[] = [];
