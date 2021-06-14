@@ -48,18 +48,28 @@ const DrawerListItem: FC<DrawerListItemProps> = (props) => {
   if (!item.to) {
     return listItem();
   }
-
-  return (
-    <NavLink
-      key={key}
-      className={classes.itemLink}
-      exact={true}
-      to={item.to}
-      onClick={() => onClick()}
-    >
-      {listItem()}
-    </NavLink>
-  );
+  if (item.to.pathname.startsWith("http")) {
+    return (
+      <a
+        href={item.to.pathname}
+        className={`${classes.itemLink}`}
+      >
+        {listItem()}
+      </a>
+    );
+  } else {
+    return (
+      <NavLink
+        key={key}
+        className={classes.itemLink}
+        exact={true}
+        to={item.to}
+        onClick={() => onClick()}
+      >
+        {listItem()}
+      </NavLink>
+    );
+  }
 };
 
 export default DrawerListItem;
