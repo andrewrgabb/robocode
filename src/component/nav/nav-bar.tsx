@@ -236,20 +236,32 @@ const NavBar: FC<NavBarProps> = (props) => {
     return topNavItems
       .filter(
         (navItem) =>
-          navItem.loggedIn === userContext.isUserLoggedIn() ||
-          navItem.loggedIn === ON_ALL_PAGES
+          (navItem.loggedIn === userContext.isUserLoggedIn() ||
+          navItem.loggedIn === ON_ALL_PAGES) && (navItem.showBeforeCompetitionStart || (compInfo.status == "launched" || compInfo.launchDate < Date.now()))
       )
       .map((navItem, index) => {
-        return (
-          <NavLink
-            key={`top-nav-item-${index}`}
-            exact={true}
-            className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
-            to={navItem.to}
-          >
-            <span className={`${classes.menuButtonText}`}>{navItem.text}</span>
-          </NavLink>
-        );
+        if (navItem.to.pathname.startsWith("http")){
+          return (
+            <a
+              key={`top-nav-item-${index}`}
+              href={navItem.to.pathname}
+              className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
+            >
+              <span className={`${classes.menuButtonText}`}>{navItem.text}</span>
+            </a>
+          );
+        }else{
+          return (
+            <NavLink
+              key={`top-nav-item-${index}`}
+              exact={true}
+              className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
+              to={navItem.to}
+            >
+              <span className={`${classes.menuButtonText}`}>{navItem.text}</span>
+            </NavLink>
+          );
+        }
       });
   };
 
