@@ -138,11 +138,13 @@ interface UserStat {
 
 interface LoginError {
   error: boolean;
+  success: boolean;
   message: string;
 }
 
 const inititalLoginError: LoginError = {
   error: false,
+  success: false,
   message: "",
 };
 
@@ -198,12 +200,18 @@ const UserPage = (props: UserPageProps) => {
       const submissionResponse = await submitCode(fileToSubmit);
 
       if (!submissionResponse.ok) {
-        const message = await submissionResponse.text();
         setLoginError({
           error: true,
-          message: message,
+          success: false,
+          message: submissionResponse.message,
         });
         return;
+      } else {
+        setLoginError({
+          error: false,
+          success: true,
+          message: submissionResponse.message,
+        });
       }
     }
   };
@@ -319,6 +327,24 @@ const UserPage = (props: UserPageProps) => {
       );
     }
   };
+  const renderSubmissionSucceededBanner = () => {
+    if (loginError.success) {
+      return (
+        <div className={classes.errorBox}>
+          <Box className={classes.errorPanel}>
+            <Alert severity="success">
+              <AlertTitle className={classes.errorTitle}>
+                Submission success!
+              </AlertTitle>
+              {loginError.message.split("\n").map((i, key) => {
+                return <div key={key}>{i}</div>;
+              })}
+            </Alert>
+          </Box>
+        </div>
+      );
+    }
+  };
   if (compInfo.status == "launched" || compInfo.launchDate < Date.now()) {
     return (
       <div className={classes.userContent}>
@@ -330,6 +356,7 @@ const UserPage = (props: UserPageProps) => {
           {renderRanking()}
           {renderDownloadLinks()}
           {renderSubmissionFailedBanner()}
+          {renderSubmissionSucceededBanner()}
           {renderSubmitCode()}
         </div>
       </div>
