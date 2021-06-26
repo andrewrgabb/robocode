@@ -127,8 +127,8 @@ const styles = makeStyles((theme) => ({
   smallRegisterOkText: {
     textAlign: "center",
     fontSize: "0.8em",
-    margin: "3vw"
-  }
+    margin: "3vw",
+  },
 }));
 
 interface UserStat {
@@ -149,8 +149,8 @@ const inititalLoginError: LoginError = {
 };
 
 type UserPageProps = {
-  compInfo: Competition,
-}
+  compInfo: Competition;
+};
 
 const UserPage = (props: UserPageProps) => {
   const { compInfo } = props;
@@ -345,7 +345,7 @@ const UserPage = (props: UserPageProps) => {
       );
     }
   };
-  if (compInfo.status == "launched" || compInfo.launchDate < Date.now()) {
+  if (compInfo.status === "launched" || compInfo.launchDate < Date.now()) {
     return (
       <div className={classes.userContent}>
         <h1 className={classes.titleContainer}>{`My Account`}</h1>
@@ -370,7 +370,10 @@ const UserPage = (props: UserPageProps) => {
             className={classes.nameBox}
           >{`Welcome, ${userContext.currentUsername}.`}</div>
           <br></br>
-          <span className={classes.smallRegisterOkText}>You've successfully registered! Come back when the competition has started.</span>
+          <span className={classes.smallRegisterOkText}>
+            You've successfully registered! Come back when the competition has
+            started.
+          </span>
         </div>
       </div>
     );

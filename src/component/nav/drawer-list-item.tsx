@@ -50,10 +50,7 @@ const DrawerListItem: FC<DrawerListItemProps> = (props) => {
   }
   if (item.to.pathname.startsWith("http")) {
     return (
-      <a
-        href={item.to.pathname}
-        className={`${classes.itemLink}`}
-      >
+      <a href={item.to.pathname} className={`${classes.itemLink}`}>
         {listItem()}
       </a>
     );

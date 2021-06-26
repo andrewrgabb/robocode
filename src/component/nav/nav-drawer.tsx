@@ -57,7 +57,10 @@ const NavDrawer: FC<NavDrawerProps> = (props) => {
       .filter(
         (navItem) =>
           navItem.loggedIn === userContext.isUserLoggedIn() ||
-          navItem.loggedIn === ON_ALL_PAGES && (navItem.showBeforeCompetitionStart || (compInfo.status == "launched" || compInfo.launchDate < Date.now()))
+          (navItem.loggedIn === ON_ALL_PAGES &&
+            (navItem.showBeforeCompetitionStart ||
+              compInfo.status === "launched" ||
+              compInfo.launchDate < Date.now()))
       )
       .map((navItem, index) => (
         <DrawerListItem

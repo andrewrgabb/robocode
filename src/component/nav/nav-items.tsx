@@ -21,22 +21,40 @@ export const getTopNavItems = () => {
     {
       text: "Rules",
       loggedIn: ON_ALL_PAGES,
+      showDesktop: true,
       icon: <School />,
       to: {
-        pathname: "https://www.notion.so/syncs/READ-ME-68e95ca047c24c82b834890488e65fc2",
+        pathname:
+          "https://www.notion.so/syncs/READ-ME-68e95ca047c24c82b834890488e65fc2",
         search: "",
       },
-      showBeforeCompetitionStart:true
+      showBeforeCompetitionStart: true,
     },
     {
       text: "Leaderboard",
       loggedIn: ON_ALL_PAGES,
+      showDesktop: true,
       icon: <People />,
       to: {
         pathname: "/leaderboard",
       },
-      showBeforeCompetitionStart:false
+      showBeforeCompetitionStart: false,
     },
+    {
+      text: "My Account",
+      loggedIn: true, //true
+      showDesktop: false,
+      icon: <ListAlt />,
+      to: {
+        pathname: "/user",
+      },
+      showBeforeCompetitionStart: true,
+    },
+  ];
+};
+
+export const getAccountItem = () => {
+  return [
     {
       text: "My Account",
       loggedIn: true, //true
@@ -44,7 +62,7 @@ export const getTopNavItems = () => {
       to: {
         pathname: "/user",
       },
-      showBeforeCompetitionStart:true
+      showBeforeCompetitionStart: true,
     },
   ];
 };

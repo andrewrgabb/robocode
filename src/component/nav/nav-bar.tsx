@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { getTopNavItems, ON_ALL_PAGES } from "./nav-items";
+import { getAccountItem, getTopNavItems, ON_ALL_PAGES } from "./nav-items";
 import logo from "../../assets/images/logo.svg";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -241,13 +241,49 @@ const NavBar: FC<NavBarProps> = (props) => {
             navItem.loggedIn === ON_ALL_PAGES) &&
           (navItem.showBeforeCompetitionStart ||
             compInfo.status === "launched" ||
-            compInfo.launchDate < Date.now())
+            compInfo.launchDate < Date.now()) &&
+          navItem.showDesktop
       )
       .map((navItem, index) => {
         if (navItem.to.pathname.startsWith("http")) {
           return (
             <a
               key={`top-nav-item-${index}`}
+              href={navItem.to.pathname}
+              className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
+            >
+              <span className={`${classes.menuButtonText}`}>
+                {navItem.text}
+              </span>
+            </a>
+          );
+        } else {
+          return (
+            <NavLink
+              key={`top-nav-item-${index}`}
+              exact={true}
+              className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
+              to={navItem.to}
+            >
+              <span className={`${classes.menuButtonText}`}>
+                {navItem.text}
+              </span>
+            </NavLink>
+          );
+        }
+      });
+  };
+
+  const renderAccountButton = () => {
+    const topNavItems = getAccountItem();
+
+    return topNavItems
+      .filter((navItem) => navItem.loggedIn === userContext.isUserLoggedIn())
+      .map((navItem, index) => {
+        if (navItem.to.pathname.startsWith("http")) {
+          return (
+            <a
+              key={`top-nav-item-account`}
               href={navItem.to.pathname}
               className={`${classes.inverseMenuButton} ${classes.removeTextDecoration} ${classes.appBarButton} ${classes.menuButtonLink}`}
             >
@@ -282,6 +318,7 @@ const NavBar: FC<NavBarProps> = (props) => {
           <NavBarCompetitionState></NavBarCompetitionState>
           {renderNavButtons()}
           <div className={classes.grow} />
+          {renderAccountButton()}
           {userContext.isUserLoggedIn()
             ? renderLogoutAuth()
             : renderLoginAuth()}
