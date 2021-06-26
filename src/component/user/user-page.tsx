@@ -161,6 +161,8 @@ const UserPage = (props: UserPageProps) => {
 
   const [stat, setStat] = useState<UserStat | undefined>(undefined);
   const [loginError, setLoginError] = useState<LoginError>(inititalLoginError);
+  const [submissionProcessing, setSubmissionProcessing] =
+    useState<boolean>(false);
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: ".py",
@@ -197,9 +199,13 @@ const UserPage = (props: UserPageProps) => {
 
   const handleUpload = async () => {
     if (acceptedFiles.length > 0) {
+      setSubmissionProcessing(true);
+
       const fileToSubmit: File = acceptedFiles[0];
 
       const submissionResponse = await submitCode(fileToSubmit);
+
+      setSubmissionProcessing(false);
 
       if (!submissionResponse.ok) {
         setLoginError({
@@ -282,10 +288,11 @@ const UserPage = (props: UserPageProps) => {
           type="submit"
           variant="contained"
           color="primary"
+          disabled={submissionProcessing}
           fullWidth
           onClick={() => handleUpload()}
         >
-          {`Submit`}
+          {!submissionProcessing ? `Submit` : `Submitting`}
         </Button>
       </Box>
     );
@@ -353,8 +360,7 @@ const UserPage = (props: UserPageProps) => {
       );
     }
   };
-  if (true) {
-    //(compInfo.status === "launched" || compInfo.launchDate < Date.now()) {
+  if (compInfo.status === "launched" || compInfo.launchDate < Date.now()) {
     return (
       <div className={classes.userContent}>
         <h1 className={classes.titleContainer}>{`My Account`}</h1>
