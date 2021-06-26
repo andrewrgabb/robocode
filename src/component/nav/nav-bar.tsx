@@ -101,7 +101,7 @@ interface NavBarProps {
 }
 
 const NavBar: FC<NavBarProps> = (props) => {
-  const { drawerToggle, compInfo} = props;
+  const { drawerToggle, compInfo } = props;
 
   const classes = styles();
   const userContext = useContext(UserContext);
@@ -138,13 +138,13 @@ const NavBar: FC<NavBarProps> = (props) => {
   };
 
   const NavBarCompetitionState = () => {
-    let [timerText,setTimerText] = React.useState<number>(0);
-    React.useEffect(()=>{
-      setInterval(()=>{
-        setTimerText(compInfo.launchDate-Date.now());
-      },500);
-    },[]);
-    if (compInfo.status == "launched" || compInfo.launchDate < Date.now()){
+    let [timerText, setTimerText] = React.useState<number>(0);
+    React.useEffect(() => {
+      setInterval(() => {
+        setTimerText(compInfo.launchDate - Date.now());
+      }, 500);
+    }, []);
+    if (compInfo.status == "launched" || compInfo.launchDate < Date.now()) {
       return (
         <React.Fragment>
           <NavLink
@@ -158,39 +158,40 @@ const NavBar: FC<NavBarProps> = (props) => {
           </NavLink>
         </React.Fragment>
       );
-    }else{
-      const toReadableTimeString= (dt:number)=>{
-        const output:string[] = [];
-        let interval =1000*60*60*24;
-        let ddt = dt; 
-        if (dt>interval){
-          output.push(`${(dt/interval)|0}d`);
-          dt -= ((dt/interval)|0) * interval; 
+    } else {
+      const toReadableTimeString = (dt: number) => {
+        const output: string[] = [];
+        let interval = 1000 * 60 * 60 * 24;
+        let ddt = dt;
+        if (dt > interval) {
+          output.push(`${(dt / interval) | 0}d`);
+          dt -= ((dt / interval) | 0) * interval;
         }
-        interval =1000*60*60; 
-        if (dt>interval){
-          output.push(`${(dt/interval)|0}h`);
-          dt -= ((dt/interval)|0) * interval; 
+        interval = 1000 * 60 * 60;
+        if (dt > interval) {
+          output.push(`${(dt / interval) | 0}h`);
+          dt -= ((dt / interval) | 0) * interval;
         }
-        interval = 1000*60;
-        if (dt>interval){
-          output.push(`${(dt/interval)|0}m`);
-          dt -= ((dt/interval)|0) * interval; 
+        interval = 1000 * 60;
+        if (dt > interval) {
+          output.push(`${(dt / interval) | 0}m`);
+          dt -= ((dt / interval) | 0) * interval;
         }
         // only render seconds if total time is less than a day
-        if (ddt<1000*60*60*24){
-          output.push(`${(dt/1000)|0}s`);
+        if (ddt < 1000 * 60 * 60 * 24) {
+          output.push(`${(dt / 1000) | 0}s`);
         }
-        return output.join(" "); 
-      }
+        return output.join(" ");
+      };
       // Create a timer
       return (
         <React.Fragment>
-            <span className={`${classes.menuButtonText}`}>{toReadableTimeString(timerText)} until launch</span>
+          <span className={`${classes.menuButtonText}`}>
+            {toReadableTimeString(timerText)} until launch
+          </span>
         </React.Fragment>
       );
     }
-
   };
 
   const renderLoginAuth = () => {
