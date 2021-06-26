@@ -134,6 +134,7 @@ const styles = makeStyles((theme) => ({
 interface UserStat {
   ranking: number;
   total: number;
+  hasLog: boolean;
 }
 
 interface LoginError {
@@ -189,6 +190,7 @@ const UserPage = (props: UserPageProps) => {
     const newStat: UserStat = {
       ranking: stat.ranking,
       total: stat.total,
+      hasLog: stat.hasLog,
     };
     setStat(newStat);
   };
@@ -237,6 +239,10 @@ const UserPage = (props: UserPageProps) => {
   ));
 
   const renderDownloadLinks = () => {
+    if (!stat) {
+      return null;
+    }
+
     return (
       <div className={classes.downloadsBox}>
         <p className={classes.downloadsText}>
@@ -247,14 +253,16 @@ const UserPage = (props: UserPageProps) => {
             </span>
           </a>
         </p>
-        <p className={classes.downloadsText}>
-          <CloudDownloadRounded className={classes.downloadIcon} />
-          <a href={getLogUrl()} target="_blank" rel="noopener noreferrer">
-            <span className={classes.downloadLink}>
-              Click to download your latest log file
-            </span>
-          </a>
-        </p>
+        {stat.hasLog && (
+          <p className={classes.downloadsText}>
+            <CloudDownloadRounded className={classes.downloadIcon} />
+            <a href={getLogUrl()} target="_blank" rel="noopener noreferrer">
+              <span className={classes.downloadLink}>
+                Click to download your latest log file
+              </span>
+            </a>
+          </p>
+        )}
       </div>
     );
   };
@@ -345,7 +353,8 @@ const UserPage = (props: UserPageProps) => {
       );
     }
   };
-  if (compInfo.status === "launched" || compInfo.launchDate < Date.now()) {
+  if (true) {
+    //(compInfo.status === "launched" || compInfo.launchDate < Date.now()) {
     return (
       <div className={classes.userContent}>
         <h1 className={classes.titleContainer}>{`My Account`}</h1>
