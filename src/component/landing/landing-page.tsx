@@ -67,6 +67,9 @@ const LandingPage = () => {
           <h2 className={classes.subtitleContainer}>
             {`This year's challenge is Auction's Eleven, a game about auctions, communication protocols, and adversarial strategy.`}
           </h2>
+          <h2 className={classes.subtitleContainer}>
+            You can find rules and more details <a href="https://www.notion.so/syncs/READ-ME-68e95ca047c24c82b834890488e65fc2">here.</a>
+          </h2>
         </div>
         <img
           src={splashImage}

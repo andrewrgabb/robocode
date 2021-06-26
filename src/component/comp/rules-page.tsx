@@ -30,8 +30,8 @@ const styles = makeStyles((theme) => ({
 }));
 
 const RulesPage = () => {
+  window.location.href="https://www.notion.so/syncs/READ-ME-68e95ca047c24c82b834890488e65fc2"; // sorry to interject
   const classes = styles();
-
   return (
     <div className={classes.rulesContent}>
       <h1 className={classes.titleContainer}>{`Rules`}</h1>

@@ -90,6 +90,7 @@ const BasePage = () => {
         <NavDrawer
           handleDrawerToggle={handleDrawerToggle}
           mobileOpen={mobileOpen}
+          compInfo = {defaultedCompInfo}
         />
       </nav>
       <main id="content" className={classes.content}>

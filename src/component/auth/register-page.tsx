@@ -85,6 +85,7 @@ type registerDetailsType = {
   email: string;
   password: string;
   confirmPassword: string;
+  competitors: Array<any>;
 };
 
 type registerErrorType = {
@@ -104,6 +105,7 @@ const initialRegisterDetails: registerDetailsType = {
   email: "",
   password: "",
   confirmPassword: "",
+  competitors: [{},{},{}]
 };
 
 const inititalRegisterError: registerErrorType = {
@@ -167,6 +169,7 @@ const RegisterPage = (props: any) => {
       username: registerDetails.username,
       email: registerDetails.email,
       password: registerDetails.password,
+      competitors:registerDetails.competitors
     };
 
     const registrationResponse = await register(registerUserRequest);
@@ -197,6 +200,16 @@ const RegisterPage = (props: any) => {
     const newRegisterDetails: registerDetailsType = {
       ...registerDetails,
       email: email,
+    };
+    setRegisterDetails(newRegisterDetails);
+  };
+
+  const updateCompetitor = (value: string, competitorNumber: number, field: string) => {
+    var competitors = registerDetails.competitors;
+    competitors[competitorNumber][field]=value;
+    const newRegisterDetails: registerDetailsType = {
+      ...registerDetails,
+      competitors: competitors,
     };
     setRegisterDetails(newRegisterDetails);
   };
@@ -319,6 +332,62 @@ const RegisterPage = (props: any) => {
               </InputAdornment>
             ),
           }}
+        />
+      </React.Fragment>
+    );
+  };
+
+  const renderCompetitorInfo = (whichCompetitor: number) => {
+    return (
+      <React.Fragment>
+        <span>Competitor {whichCompetitor+1}</span>
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value,whichCompetitor,"name")
+          }
+          label="Full Name (as on certificate)"
+          value={registerDetails.competitors[whichCompetitor]["name"] || ""}
+          autoFocus
+          required={whichCompetitor==0}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value,whichCompetitor,"university")
+          }
+          label="University"
+          value={registerDetails.competitors[whichCompetitor]["university"] || ""}
+          autoFocus
+          required={whichCompetitor==0}
+          fullWidth
+          variant="outlined"
+        />
+                <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value,whichCompetitor,"unikey")
+          }
+          label="University Email"
+          value={registerDetails.competitors[whichCompetitor]["unikey"] || ""}
+          autoFocus
+          required={whichCompetitor==0}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value,whichCompetitor,"yeardeg")
+          }
+          label="Year + Degree"
+          value={registerDetails.competitors[whichCompetitor]["yeardeg"] || ""}
+          autoFocus
+          required={whichCompetitor==0}
+          fullWidth
+          variant="outlined"
         />
       </React.Fragment>
     );
@@ -452,6 +521,9 @@ const RegisterPage = (props: any) => {
           {renderSignupFailedBanner()}
           {renderUsernameSection()}
           {renderEmailSection()}
+          {renderCompetitorInfo(0)}
+          {renderCompetitorInfo(1)}
+          {renderCompetitorInfo(2)}
           {renderPasswordSection()}
           {renderButton()}
         </form>

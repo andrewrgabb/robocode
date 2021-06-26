@@ -40,13 +40,20 @@ export const getStat = async(): Promise<Stat | null> => {
 export const submitCode = async(file: File): Promise<any> => {
 
     // May need to be changed
-    const response = await doPost(getSubmitUrl(), file);
+    const formData = new FormData();
 
+	formData.append('submission', file);
+    const response = await doPost(getSubmitUrl(), formData,true);
+
+    /*
+    // I use status codes quite liberally. code != 200 doesn't mean failure
     if (!response.ok) {
         console.log("Error submitting code");
+        console.log(response);
         return null;
     }
-
-    let json = await response.json(); // TODO: what is even returned lol
+    */
+    let json = await response.json();
+    console.log(json);
     return json;
 }

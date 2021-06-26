@@ -5,6 +5,7 @@ import React, { FC, useContext } from "react";
 import List from "@material-ui/core/List";
 import { makeStyles } from "@material-ui/core/styles";
 import { drawerWidth } from "../base-page";
+import { Competition } from "../../transport/competition";
 
 import UserContext from "../../context/user-context";
 import {
@@ -27,10 +28,11 @@ const styles = makeStyles((theme) => ({
 interface NavDrawerProps {
   handleDrawerToggle: () => void;
   mobileOpen: boolean;
+  compInfo: Competition;
 }
 
 const NavDrawer: FC<NavDrawerProps> = (props) => {
-  const { handleDrawerToggle, mobileOpen } = props;
+  const { handleDrawerToggle, mobileOpen, compInfo } = props;
 
   const classes = styles();
   const userContext = useContext(UserContext);
@@ -55,7 +57,7 @@ const NavDrawer: FC<NavDrawerProps> = (props) => {
       .filter(
         (navItem) =>
           navItem.loggedIn === userContext.isUserLoggedIn() ||
-          navItem.loggedIn === ON_ALL_PAGES
+          navItem.loggedIn === ON_ALL_PAGES && (navItem.showBeforeCompetitionStart || (compInfo.status == "launched" || compInfo.launchDate < Date.now()))
       )
       .map((navItem, index) => (
         <DrawerListItem
