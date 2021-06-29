@@ -43,17 +43,23 @@ export const submitCode = async(file: File): Promise<any> => {
     const formData = new FormData();
 
 	formData.append('submission', file);
-    const response = await doPost(getSubmitUrl(), formData,true);
-
-    /*
-    // I use status codes quite liberally. code != 200 doesn't mean failure
-    if (!response.ok) {
-        console.log("Error submitting code");
-        console.log(response);
-        return null;
+    try{
+        const response = await doPost(getSubmitUrl(), formData,true);
+        /*
+        // I use status codes quite liberally. code != 200 doesn't mean failure
+        if (!response.ok) {
+            console.log("Error submitting code");
+            console.log(response);
+            return null;
+        }
+        */
+        let json = await response.json();
+        console.log(json);
+        return json;
+    }catch (e){
+        return {
+            "ok":false,
+            "message": "File upload failed! If you edited your file on disk, you'll need to drop it again."
+        };
     }
-    */
-    let json = await response.json();
-    console.log(json);
-    return json;
 }
