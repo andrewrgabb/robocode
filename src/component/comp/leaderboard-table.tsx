@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     maxWidth: "800px",
   },
   container: {
-    maxHeight: 440,
+    maxHeight: 600,
   },
 });
 
@@ -72,7 +72,7 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     {
                       <TableCell key={`${index}_0`} align={"left"}>
-                        {index + 1}
+                        {page * 10 + (index + 1)}
                       </TableCell>
                     }
                     {
