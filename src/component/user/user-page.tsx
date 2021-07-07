@@ -335,7 +335,9 @@ const UserPage = (props: UserPageProps) => {
               <AlertTitle className={classes.errorTitle}>
                 Submission failed
               </AlertTitle>
-              {loginError.message}
+              {loginError.message.split("\n").map((i, key) => {
+                return <div key={key}>{i}</div>;
+              })}
             </Alert>
           </Box>
         </div>
