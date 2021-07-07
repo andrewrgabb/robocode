@@ -1,4 +1,10 @@
-import { Dashboard, ListAlt, People, School } from "@material-ui/icons";
+import {
+  Dashboard,
+  ListAlt,
+  TrendingUp,
+  People,
+  School,
+} from "@material-ui/icons";
 
 export const ON_ALL_PAGES = "all";
 
@@ -34,7 +40,7 @@ export const getTopNavItems = () => {
       text: "Leaderboard",
       loggedIn: ON_ALL_PAGES,
       showDesktop: true,
-      icon: <People />,
+      icon: <TrendingUp />,
       to: {
         pathname: "/leaderboard",
       },
@@ -50,13 +56,32 @@ export const getTopNavItems = () => {
       },
       showBeforeCompetitionStart: true,
     },
+    {
+      text: "My Team",
+      loggedIn: true, //true
+      showDesktop: false,
+      icon: <People />,
+      to: {
+        pathname: "/user",
+      },
+      showBeforeCompetitionStart: true,
+    },
   ];
 };
 
-export const getAccountItem = () => {
+export const getAccountItems = () => {
   return [
     {
       text: "My Account",
+      loggedIn: true, //true
+      icon: <ListAlt />,
+      to: {
+        pathname: "/user",
+      },
+      showBeforeCompetitionStart: true,
+    },
+    {
+      text: "My Team",
       loggedIn: true, //true
       icon: <ListAlt />,
       to: {

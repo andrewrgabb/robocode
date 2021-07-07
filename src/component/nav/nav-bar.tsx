@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { getAccountItem, getTopNavItems, ON_ALL_PAGES } from "./nav-items";
+import { getAccountItems, getTopNavItems, ON_ALL_PAGES } from "./nav-items";
 import logo from "../../assets/images/logo.svg";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -274,8 +274,8 @@ const NavBar: FC<NavBarProps> = (props) => {
       });
   };
 
-  const renderAccountButton = () => {
-    const topNavItems = getAccountItem();
+  const renderAccountButtons = () => {
+    const topNavItems = getAccountItems();
 
     return topNavItems
       .filter((navItem) => navItem.loggedIn === userContext.isUserLoggedIn())
@@ -318,7 +318,7 @@ const NavBar: FC<NavBarProps> = (props) => {
           <NavBarCompetitionState></NavBarCompetitionState>
           {renderNavButtons()}
           <div className={classes.grow} />
-          {renderAccountButton()}
+          {renderAccountButtons()}
           {userContext.isUserLoggedIn()
             ? renderLogoutAuth()
             : renderLoginAuth()}
