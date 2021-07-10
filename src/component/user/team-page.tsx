@@ -11,7 +11,6 @@ import AlertTitle from "@material-ui/lab/AlertTitle";
 
 import { getLogUrl, getCodepackUrl } from "../../paths/api";
 import UserContext from "../../context/user-context";
-import { Competition } from "../../transport/competition";
 
 const styles = makeStyles((theme) => ({
   userContent: {
@@ -149,12 +148,7 @@ const inititalLoginError: LoginError = {
   message: "",
 };
 
-type UserPageProps = {
-  compInfo: Competition;
-};
-
-const UserPage = (props: UserPageProps) => {
-  const { compInfo } = props;
+const TeamPage = () => {
   const classes = styles();
 
   const userContext = useContext(UserContext);
@@ -301,7 +295,7 @@ const UserPage = (props: UserPageProps) => {
   const renderSubmitCode = () => {
     return (
       <div className={classes.submissionBox}>
-        <div className={classes.subtitle}>{`Submit Code`}</div>
+        <div className={classes.subtitle}>{`Code Submission`}</div>
         <div className={classes.dropfield}>
           <div {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
@@ -362,39 +356,21 @@ const UserPage = (props: UserPageProps) => {
       );
     }
   };
-  if (compInfo.status === "launched" || compInfo.launchDate < Date.now()) {
-    return (
-      <div className={classes.userContent}>
-        <h1 className={classes.titleContainer}>{`Code Submission`}</h1>
-        <div className={classes.contentContainer}>
-          <div
-            className={classes.nameBox}
-          >{`Welcome, ${userContext.currentUsername}.`}</div>
-          {renderRanking()}
-          {renderDownloadLinks()}
-          {renderSubmissionFailedBanner()}
-          {renderSubmissionSucceededBanner()}
-          {renderSubmitCode()}
-        </div>
+  return (
+    <div className={classes.userContent}>
+      <h1 className={classes.titleContainer}>{`My Team`}</h1>
+      <div className={classes.contentContainer}>
+        <div
+          className={classes.nameBox}
+        >{`Welcome, ${userContext.currentUsername}.`}</div>
+        {renderRanking()}
+        {renderDownloadLinks()}
+        {renderSubmissionFailedBanner()}
+        {renderSubmissionSucceededBanner()}
+        {renderSubmitCode()}
       </div>
-    );
-  } else {
-    return (
-      <div className={classes.userContent}>
-        <h1 className={classes.titleContainer}>{`Code Submission`}</h1>
-        <div className={classes.contentContainer}>
-          <div
-            className={classes.nameBox}
-          >{`Welcome, ${userContext.currentUsername}.`}</div>
-          <br></br>
-          <span className={classes.smallRegisterOkText}>
-            You've successfully registered! Come back when the competition has
-            started.
-          </span>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 };
 
-export default UserPage;
+export default TeamPage;

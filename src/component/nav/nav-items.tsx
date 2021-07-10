@@ -47,7 +47,7 @@ export const getTopNavItems = () => {
       showBeforeCompetitionStart: false,
     },
     {
-      text: "My Account",
+      text: "Code Submission",
       loggedIn: true, //true
       showDesktop: false,
       icon: <ListAlt />,
@@ -62,7 +62,7 @@ export const getTopNavItems = () => {
       showDesktop: false,
       icon: <People />,
       to: {
-        pathname: "/user",
+        pathname: "/team",
       },
       showBeforeCompetitionStart: true,
     },
@@ -72,7 +72,7 @@ export const getTopNavItems = () => {
 export const getAccountItems = () => {
   return [
     {
-      text: "My Account",
+      text: "Code Submission",
       loggedIn: true, //true
       icon: <ListAlt />,
       to: {
@@ -85,7 +85,7 @@ export const getAccountItems = () => {
       loggedIn: true, //true
       icon: <ListAlt />,
       to: {
-        pathname: "/user",
+        pathname: "/team",
       },
       showBeforeCompetitionStart: true,
     },

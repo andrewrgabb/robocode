@@ -9,13 +9,14 @@ import LandingPage from "./landing/landing-page";
 import LeaderboardPage from "./comp/leaderboard-page";
 import RulesPage from "./comp/rules-page";
 import UserPage from "./user/user-page";
+import TeamPage from "./user/team-page";
 import LoginPage from "./auth/login-page";
 import RegisterPage from "./auth/register-page";
 import NavDrawer from "./nav/nav-drawer";
 import { PinDropSharp } from "@material-ui/icons";
 
-import { Competition } from '../transport/competition';
-import { getCompetitionInfo } from '../service/competition-service';
+import { Competition } from "../transport/competition";
+import { getCompetitionInfo } from "../service/competition-service";
 
 export const drawerWidth = 240;
 const styles = makeStyles((theme) => ({
@@ -61,8 +62,8 @@ const BasePage = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const [compInfoFetched, setCompInfoFetched] = React.useState<(boolean)>(false);
-  const [compInfo, setCompInfo] = useState<(Competition | null)>(null);
+  const [compInfoFetched, setCompInfoFetched] = React.useState<boolean>(false);
+  const [compInfo, setCompInfo] = useState<Competition | null>(null);
 
   const _getCompetitionInfo = useCallback(async () => {
     const competitionInfo: Competition | null = await getCompetitionInfo();
@@ -81,7 +82,12 @@ const BasePage = () => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const defaultedCompInfo:Competition = compInfo ? compInfo : { launchDate: Date.now() + (1000 * 60 * 60 * 24 * 10), status: "prelaunch" }
+  const defaultedCompInfo: Competition = compInfo
+    ? compInfo
+    : {
+        launchDate: Date.now() + 1000 * 60 * 60 * 24 * 10,
+        status: "prelaunch",
+      };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -90,7 +96,7 @@ const BasePage = () => {
         <NavDrawer
           handleDrawerToggle={handleDrawerToggle}
           mobileOpen={mobileOpen}
-          compInfo = {defaultedCompInfo}
+          compInfo={defaultedCompInfo}
         />
       </nav>
       <main id="content" className={classes.content}>
@@ -98,9 +104,14 @@ const BasePage = () => {
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/rules" component={RulesPage} />
         <Route exact path="/leaderboard" component={LeaderboardPage} />
-        <Route exact path="/user" render={(props) => (
-          <UserPage {...props} compInfo={defaultedCompInfo} />
-        )} />
+        <Route
+          exact
+          path="/user"
+          render={(props) => (
+            <UserPage {...props} compInfo={defaultedCompInfo} />
+          )}
+        />
+        <Route exact path="/team" component={TeamPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/register" component={RegisterPage} />
       </main>
