@@ -10,16 +10,19 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 
 import { Ranking } from "../../transport/comp";
+import moment from "moment";
 
 interface Row {
-  name: string;
+  displayName: string;
   elo: string;
+  submissionDateNo: string;
 }
 
 const columns = [
   { id: "rank", label: "Rank", minWidth: 40 },
-  { id: "name", label: "Name", minWidth: 40 },
+  { id: "displayName", label: "Name", minWidth: 40 },
   { id: "elo", label: "ELO Rating", minWidth: 40 },
+  { id: "submissionDateTime", label: "Date Submitted", minWidth: 40 },
 ];
 
 const useStyles = makeStyles({
@@ -72,17 +75,26 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     {
                       <TableCell key={`${index}_0`} align={"left"}>
-                        {page * 10 + (index + 1)}
+                        {page * rowsPerPage + (index + 1)}
                       </TableCell>
                     }
                     {
                       <TableCell key={`${index}_1`} align={"left"}>
-                        {row.name}
+                        {row.displayName}
                       </TableCell>
                     }
                     {
                       <TableCell key={`${index}_2`} align={"left"}>
                         {row.elo}
+                      </TableCell>
+                    }
+                    {
+                      <TableCell key={`${index}_2`} align={"left"}>
+                        {"-" === row.submissionDateNo
+                          ? "-"
+                          : moment(row.submissionDateNo).format(
+                              "MMMM Do YYYY, h:mm:ss"
+                            )}
                       </TableCell>
                     }
                   </TableRow>

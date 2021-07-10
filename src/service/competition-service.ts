@@ -17,7 +17,6 @@ export const getCompetitionInfo = async(): Promise<Competition | null> => {
     const json = await response.json();
     
     const competitionInfo: Competition = json;
-    console.log(competitionInfo);
 
     return competitionInfo;
 };
