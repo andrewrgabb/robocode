@@ -89,7 +89,7 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                       </TableCell>
                     }
                     {
-                      <TableCell key={`${index}_2`} align={"left"}>
+                      <TableCell key={`${index}_3`} align={"left"}>
                         {"-" === row.submissionDateNo
                           ? "-"
                           : moment(row.submissionDateNo).format(
