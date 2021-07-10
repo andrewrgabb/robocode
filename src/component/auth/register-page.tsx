@@ -17,6 +17,7 @@ import {
   VisibilityOff,
 } from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
+import { Competitor } from "../../transport/user";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -85,7 +86,7 @@ type registerDetailsType = {
   email: string;
   password: string;
   confirmPassword: string;
-  competitors: Array<any>;
+  competitors: Competitor[];
 };
 
 type registerErrorType = {
@@ -100,12 +101,19 @@ type ErrorType = {
   confirmPassword: boolean;
 };
 
+const initialCompetitor: Competitor = {
+  name: "",
+  university: "",
+  unikey: "",
+  yeardeg: "",
+};
+
 const initialRegisterDetails: registerDetailsType = {
   username: "",
   email: "",
   password: "",
   confirmPassword: "",
-  competitors: [{},{},{}]
+  competitors: [initialCompetitor, initialCompetitor, initialCompetitor],
 };
 
 const inititalRegisterError: registerErrorType = {
@@ -169,7 +177,7 @@ const RegisterPage = (props: any) => {
       username: registerDetails.username,
       email: registerDetails.email,
       password: registerDetails.password,
-      competitors:registerDetails.competitors
+      competitors: registerDetails.competitors,
     };
 
     const registrationResponse = await register(registerUserRequest);
@@ -204,9 +212,13 @@ const RegisterPage = (props: any) => {
     setRegisterDetails(newRegisterDetails);
   };
 
-  const updateCompetitor = (value: string, competitorNumber: number, field: string) => {
+  const updateCompetitor = (
+    value: string,
+    competitorNumber: number,
+    field: keyof Competitor
+  ) => {
     var competitors = registerDetails.competitors;
-    competitors[competitorNumber][field]=value;
+    competitors[competitorNumber][field] = value;
     const newRegisterDetails: registerDetailsType = {
       ...registerDetails,
       competitors: competitors,
@@ -340,52 +352,54 @@ const RegisterPage = (props: any) => {
   const renderCompetitorInfo = (whichCompetitor: number) => {
     return (
       <React.Fragment>
-        <span>Competitor {whichCompetitor+1}</span>
+        <span>Competitor {whichCompetitor + 1}</span>
         <TextField
           className={classes.formInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateCompetitor(e.target.value,whichCompetitor,"name")
+            updateCompetitor(e.target.value, whichCompetitor, "name")
           }
           label="Full Name (as on certificate)"
           value={registerDetails.competitors[whichCompetitor]["name"] || ""}
           autoFocus
-          required={whichCompetitor==0}
+          required={0 === whichCompetitor}
           fullWidth
           variant="outlined"
         />
         <TextField
           className={classes.formInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateCompetitor(e.target.value,whichCompetitor,"university")
+            updateCompetitor(e.target.value, whichCompetitor, "university")
           }
           label="University"
-          value={registerDetails.competitors[whichCompetitor]["university"] || ""}
+          value={
+            registerDetails.competitors[whichCompetitor]["university"] || ""
+          }
           autoFocus
-          required={whichCompetitor==0}
+          required={0 === whichCompetitor}
           fullWidth
           variant="outlined"
         />
-                <TextField
+        <TextField
           className={classes.formInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateCompetitor(e.target.value,whichCompetitor,"unikey")
+            updateCompetitor(e.target.value, whichCompetitor, "unikey")
           }
           label="University Email"
           value={registerDetails.competitors[whichCompetitor]["unikey"] || ""}
           autoFocus
-          required={whichCompetitor==0}
+          required={0 === whichCompetitor}
           fullWidth
           variant="outlined"
         />
         <TextField
           className={classes.formInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateCompetitor(e.target.value,whichCompetitor,"yeardeg")
+            updateCompetitor(e.target.value, whichCompetitor, "yeardeg")
           }
           label="Year + Degree"
           value={registerDetails.competitors[whichCompetitor]["yeardeg"] || ""}
           autoFocus
-          required={whichCompetitor==0}
+          required={0 === whichCompetitor}
           fullWidth
           variant="outlined"
         />

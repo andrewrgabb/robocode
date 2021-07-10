@@ -22,7 +22,7 @@ const columns = [
   { id: "rank", label: "Rank", minWidth: 40 },
   { id: "displayName", label: "Name", minWidth: 40 },
   { id: "elo", label: "ELO Rating", minWidth: 40 },
-  { id: "submissionDateTime", label: "Date Submitted", minWidth: 40 },
+  { id: "submissionDateTime", label: "Date / Time Submitted", minWidth: 40 },
 ];
 
 const useStyles = makeStyles({

@@ -1,11 +1,13 @@
 import {
     getCurrentUserUrl,
+    getDetailsUrl,
+    getEditDetailsUrl,
     getStatUrl,
     getSubmitUrl,
 } from '../paths/api';
 import {doGet, doPost} from "./base-service";
 import {
-    Stat,
+    Stat, TeamDetails,
 } from '../transport/user';
 
 export const getCurrentUser = async () => {
@@ -44,7 +46,7 @@ export const submitCode = async(file: File): Promise<any> => {
 
 	formData.append('submission', file);
     try{
-        const response = await doPost(getSubmitUrl(), formData,true);
+        const response = await doPost(getSubmitUrl(), formData, true);
         /*
         // I use status codes quite liberally. code != 200 doesn't mean failure
         if (!response.ok) {
@@ -63,3 +65,25 @@ export const submitCode = async(file: File): Promise<any> => {
         };
     }
 }
+
+export const getTeamDetails = async (): Promise<TeamDetails | null> => {
+
+    const response = await doGet(getDetailsUrl());
+
+    if (!response.ok) {
+        console.log("Error fetching team details data");
+        return null;
+    }
+
+    let json: TeamDetails = await response.json() ;
+    return json;
+}
+
+export const updateTeamDetails = async (teamDetails: TeamDetails): Promise<void> => {
+
+    await doPost(getEditDetailsUrl(), teamDetails);
+    
+    return;
+}
+
+

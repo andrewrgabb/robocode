@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { getStat, submitCode } from "../../service/user-service";
+import {
+  getStat,
+  getTeamDetails,
+  submitCode,
+  updateTeamDetails,
+} from "../../service/user-service";
 import { useDropzone } from "react-dropzone";
 import { FileWithPath } from "file-selector";
 import { CloudDownloadRounded } from "@material-ui/icons";
@@ -130,22 +135,23 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-interface UserStat {
-  ranking: number;
-  total: number;
-  hasLog: boolean;
+interface Competitor {
+  name: string;
+  university: string;
+  unikey: string;
+  yeardeg: string;
 }
 
-interface LoginError {
-  error: boolean;
-  success: boolean;
-  message: string;
-}
+type TeamDetails = {
+  teamName: string;
+  competitors: Competitor[];
+};
 
-const inititalLoginError: LoginError = {
-  error: false,
-  success: false,
-  message: "",
+const initialCompetitor: Competitor = {
+  name: "",
+  university: "",
+  unikey: "",
+  yeardeg: "",
 };
 
 const TeamPage = () => {
@@ -153,118 +159,40 @@ const TeamPage = () => {
 
   const userContext = useContext(UserContext);
 
-  const [stat, setStat] = useState<UserStat | undefined>(undefined);
-  const [loginError, setLoginError] = useState<LoginError>(inititalLoginError);
+  const [teamDetails, setTeamDetails] = useState<TeamDetails | undefined>(
+    undefined
+  );
   const [submissionProcessing, setSubmissionProcessing] =
     useState<boolean>(false);
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    accept: ".py",
-    maxFiles: 1,
-    maxSize: 3145728,
-  });
-
   useEffect(() => {
-    console.log(acceptedFiles);
-  }, [acceptedFiles]);
-
-  useEffect(() => {
-    fetchStat();
+    fetchTeamDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchStat = async () => {
-    const stat = await getStat();
+  const fetchTeamDetails = async () => {
+    const fetchedTeamDetails: TeamDetails | null = await getTeamDetails();
 
-    if (null === stat) {
+    if (!fetchedTeamDetails) {
       return;
     }
 
-    console.log("stat: ");
-    console.log(stat);
+    console.log({ fetchedTeamDetails });
 
-    const newStat: UserStat = {
-      ranking: stat.ranking,
-      total: stat.total,
-      hasLog: stat.hasLog,
+    const newTeamDetails: TeamDetails = {
+      teamName: fetchedTeamDetails.teamName,
+      competitors: [...fetchedTeamDetails.competitors],
     };
-    setStat(newStat);
+
+    setTeamDetails(newTeamDetails);
   };
 
-  const handleUpload = async () => {
-    if (acceptedFiles.length > 0) {
-      setSubmissionProcessing(true);
+  const handleSubmission = async () => {
+    setSubmissionProcessing(true);
 
-      const fileToSubmit: File = acceptedFiles[0];
+    await updateTeamDetails(teamDetails);
 
-      const submissionResponse = await submitCode(fileToSubmit);
-
-      setSubmissionProcessing(false);
-
-      if (!submissionResponse.ok) {
-        setLoginError({
-          error: true,
-          success: false,
-          message: submissionResponse.message,
-        });
-        return;
-      } else {
-        setLoginError({
-          error: false,
-          success: true,
-          message: submissionResponse.message,
-        });
-      }
-    }
-  };
-
-  const renderRanking = () => {
-    if (undefined === stat) {
-      return null;
-    }
-
-    return (
-      <React.Fragment>
-        <div className={classes.rankingBox}>
-          {`Ranking: ${stat.ranking} / ${stat.total}`}
-        </div>
-      </React.Fragment>
-    );
-  };
-
-  const acceptedFileItems = acceptedFiles.map((file: FileWithPath) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
-  const renderDownloadLinks = () => {
-    if (!stat) {
-      return null;
-    }
-
-    return (
-      <div className={classes.downloadsBox}>
-        <p className={classes.downloadsText}>
-          <CloudDownloadRounded className={classes.downloadIcon} />
-          <a href={getCodepackUrl()} target="_blank" rel="noopener noreferrer">
-            <span className={classes.downloadLink}>
-              Click to download the coding template
-            </span>
-          </a>
-        </p>
-        {stat.hasLog && (
-          <p className={classes.downloadsText}>
-            <CloudDownloadRounded className={classes.downloadIcon} />
-            <a href={getLogUrl()} target="_blank" rel="noopener noreferrer">
-              <span className={classes.downloadLink}>
-                Click to download your latest log file
-              </span>
-            </a>
-          </p>
-        )}
-      </div>
-    );
+    setSubmissionProcessing(false);
   };
 
   const renderButton = () => {
@@ -286,75 +214,24 @@ const TeamPage = () => {
           fullWidth
           onClick={() => handleUpload()}
         >
-          {!submissionProcessing ? `Submit` : `Submitting`}
+          {!submissionProcessing ? `Update Details` : `Updating`}
         </Button>
       </Box>
     );
   };
 
-  const renderSubmitCode = () => {
+  const renderSubmissionSucceededBanner = () => {
     return (
-      <div className={classes.submissionBox}>
-        <div className={classes.subtitle}>{`Code Submission`}</div>
-        <div className={classes.dropfield}>
-          <div {...getRootProps({ className: "dropzone" })}>
-            <input {...getInputProps()} />
-            <div className={classes.dropfieldContent}>
-              <p>Drop your submission here, or click to upload</p>
-              <p>
-                Limits: Only *.py files are accepted and the file size must be
-                less than 3mb
-              </p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <span className={classes.subtitle}>{`Uploaded File: `}</span>
-
-          {acceptedFileItems.length > 0
-            ? acceptedFileItems
-            : "(Nothing uploaded yet)"}
-        </div>
-        <div className={classes.buttonBox}>{renderButton()}</div>
+      <div className={classes.errorBox}>
+        <Box className={classes.errorPanel}>
+          <Alert severity="success">
+            <AlertTitle className={classes.errorTitle}>
+              Submission success!
+            </AlertTitle>
+          </Alert>
+        </Box>
       </div>
     );
-  };
-
-  const renderSubmissionFailedBanner = () => {
-    if (loginError.error) {
-      return (
-        <div className={classes.errorBox}>
-          <Box className={classes.errorPanel}>
-            <Alert severity="error">
-              <AlertTitle className={classes.errorTitle}>
-                Submission failed
-              </AlertTitle>
-              {loginError.message.split("\n").map((i, key) => {
-                return <div key={key}>{i}</div>;
-              })}
-            </Alert>
-          </Box>
-        </div>
-      );
-    }
-  };
-  const renderSubmissionSucceededBanner = () => {
-    if (loginError.success) {
-      return (
-        <div className={classes.errorBox}>
-          <Box className={classes.errorPanel}>
-            <Alert severity="success">
-              <AlertTitle className={classes.errorTitle}>
-                Submission success!
-              </AlertTitle>
-              {loginError.message.split("\n").map((i, key) => {
-                return <div key={key}>{i}</div>;
-              })}
-            </Alert>
-          </Box>
-        </div>
-      );
-    }
   };
   return (
     <div className={classes.userContent}>
@@ -362,12 +239,13 @@ const TeamPage = () => {
       <div className={classes.contentContainer}>
         <div
           className={classes.nameBox}
-        >{`Welcome, ${userContext.currentUsername}.`}</div>
-        {renderRanking()}
-        {renderDownloadLinks()}
-        {renderSubmissionFailedBanner()}
+        >{`Welcome, ${userContext.currentUsername}. These are your team's details. 
+            If you wish to change anything, please do so by editing the fields 
+            and then clicking the 'Update Details'
+            button at the bottom of the page to save any changes.`}</div>
+
         {renderSubmissionSucceededBanner()}
-        {renderSubmitCode()}
+        <div className={classes.buttonBox}>{renderButton()}</div>
       </div>
     </div>
   );
