@@ -212,7 +212,7 @@ const TeamPage = () => {
           color="primary"
           disabled={submissionProcessing}
           fullWidth
-          onClick={() => handleUpload()}
+          onClick={() => handleSubmission()}
         >
           {!submissionProcessing ? `Update Details` : `Updating`}
         </Button>
