@@ -4,6 +4,7 @@ import {
   TrendingUp,
   People,
   School,
+  Pageview,
 } from "@material-ui/icons";
 
 export const ON_ALL_PAGES = "all";
@@ -40,9 +41,29 @@ export const getTopNavItems = () => {
       text: "Leaderboard",
       loggedIn: ON_ALL_PAGES,
       showDesktop: true,
-      icon: <TrendingUp />,
+      icon: <ListAlt />,
       to: {
         pathname: "/leaderboard",
+      },
+      showBeforeCompetitionStart: false,
+    },
+    {
+      text: "Visualiser",
+      loggedIn: ON_ALL_PAGES,
+      showDesktop: true,
+      icon: <Pageview />,
+      to: {
+        pathname: "http://auctions11.usydrobotics.club/api/fullLogs/visualizer",
+      },
+      showBeforeCompetitionStart: false,
+    },
+    {
+      text: "Elo Charts",
+      loggedIn: ON_ALL_PAGES,
+      showDesktop: true,
+      icon: <TrendingUp />,
+      to: {
+        pathname: "http://auctions11.usydrobotics.club/api/fullLogs/eloChart",
       },
       showBeforeCompetitionStart: false,
     },
