@@ -76,6 +76,8 @@ export const getTeamDetails = async (): Promise<TeamDetails | null> => {
     }
 
     const json: TeamDetails = await response.json();
+
+    console.log({json});
     return json;
 }
 

@@ -7,6 +7,7 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 
 import UserContext from "../../context/user-context";
+import { TextField } from "@material-ui/core";
 
 const styles = makeStyles((theme) => ({
   userContent: {
@@ -55,6 +56,9 @@ const styles = makeStyles((theme) => ({
     textAlign: `left`,
     fontWeight: `bold`,
     marginBottom: `6px`,
+  },
+  formInput: {
+    margin: `20px 0px 20px 0px`,
   },
   nameBox: {
     minHeight: `1em`,
@@ -206,7 +210,9 @@ const TeamPage = () => {
     setTeamDetails(newTeamDetails);
   };
 
-  const handleSubmission = async () => {
+  const handleSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!teamDetails) {
       return;
     }
@@ -238,8 +244,8 @@ const TeamPage = () => {
       return;
     } else {
       setSubmissionError({
-        error: true,
-        success: false,
+        error: false,
+        success: true,
         message: "",
       });
     }
@@ -262,7 +268,6 @@ const TeamPage = () => {
           color="primary"
           disabled={submissionProcessing}
           fullWidth
-          onClick={() => handleSubmission()}
         >
           {!submissionProcessing ? `Update Details` : `Updating`}
         </Button>
@@ -298,6 +303,108 @@ const TeamPage = () => {
       </div>
     ) : null;
   };
+
+  const updateCompetitor = (
+    value: string,
+    competitorNumber: number,
+    field: keyof Competitor
+  ) => {
+    if (!teamDetails) {
+      return;
+    }
+    let competitors: Competitor[] = [...teamDetails.competitors];
+    competitors[competitorNumber][field] = value;
+    const newRegisterDetails: TeamDetails = {
+      ...teamDetails,
+      competitors: competitors,
+    };
+    setTeamDetails(newRegisterDetails);
+  };
+
+  const renderCompetitorInfo = (whichCompetitor: number) => {
+    if (!teamDetails) {
+      return null;
+    }
+
+    return (
+      <React.Fragment>
+        <span>Competitor {whichCompetitor + 1}</span>
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value, whichCompetitor, "name")
+          }
+          label="Full Name (as on certificate)"
+          value={teamDetails.competitors[whichCompetitor]["name"] || ""}
+          autoFocus
+          required={0 === whichCompetitor}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value, whichCompetitor, "university")
+          }
+          label="University"
+          value={teamDetails.competitors[whichCompetitor]["university"] || ""}
+          autoFocus
+          required={0 === whichCompetitor}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value, whichCompetitor, "unikey")
+          }
+          label="University Email"
+          value={teamDetails.competitors[whichCompetitor]["unikey"] || ""}
+          autoFocus
+          required={0 === whichCompetitor}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            updateCompetitor(e.target.value, whichCompetitor, "yeardeg")
+          }
+          label="Year + Degree"
+          value={teamDetails.competitors[whichCompetitor]["yeardeg"] || ""}
+          autoFocus
+          required={0 === whichCompetitor}
+          fullWidth
+          variant="outlined"
+        />
+      </React.Fragment>
+    );
+  };
+
+  const renderTeamName = () => {
+    if (!teamDetails) {
+      return null;
+    }
+
+    return (
+      <React.Fragment>
+        <span>Team Details</span>
+        <TextField
+          className={classes.formInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTeamDetails({ ...teamDetails, teamName: e.target.value })
+          }
+          label="Team Name"
+          value={teamDetails.teamName}
+          autoFocus
+          required={true}
+          fullWidth
+          variant="outlined"
+        />
+      </React.Fragment>
+    );
+  };
+
   return (
     <div className={classes.userContent}>
       <h1 className={classes.titleContainer}>{`My Team`}</h1>
@@ -308,10 +415,17 @@ const TeamPage = () => {
             If you wish to change anything, edit the fields below
             and then click the 'Update Details' button at the bottom of 
             the page when you are done.`}</div>
-        {renderSubmissionSucceededBanner()}
-        {renderSubmissionFailedBanner()}
-
-        <div className={classes.buttonBox}>{renderButton()}</div>
+        <form onSubmit={(event) => handleSubmission(event)}>
+          {renderSubmissionSucceededBanner()}
+          {renderSubmissionFailedBanner()}
+          {renderTeamName()}
+          {renderCompetitorInfo(0)}
+          {renderCompetitorInfo(1)}
+          {renderCompetitorInfo(2)}
+          {renderSubmissionSucceededBanner()}
+          {renderSubmissionFailedBanner()}
+          <div className={classes.buttonBox}>{renderButton()}</div>
+        </form>
       </div>
     </div>
   );
