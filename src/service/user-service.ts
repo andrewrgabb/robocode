@@ -55,7 +55,7 @@ export const submitCode = async (file: File): Promise<any> => {
             return null;
         }
         */
-        let json = await response.json();
+        const json = await response.json();
         console.log(json);
         return json;
     } catch (e) {
@@ -75,12 +75,15 @@ export const getTeamDetails = async (): Promise<TeamDetails | null> => {
         return null;
     }
 
-    let json: TeamDetails = await response.json();
+    const json: TeamDetails = await response.json();
     return json;
 }
 
-export const updateTeamDetails = async (teamDetails: TeamDetails | undefined): Promise<void> => {
-    if (teamDetails) await doPost(getEditDetailsUrl(), teamDetails);
+export const updateTeamDetails = async (teamDetails: TeamDetails | undefined): Promise<any> => {
+    if (teamDetails) {
+        const response = await doPost(getEditDetailsUrl(), teamDetails);
+        return response;
+    }
     return;
 }
 

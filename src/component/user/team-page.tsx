@@ -58,6 +58,7 @@ const styles = makeStyles((theme) => ({
   },
   nameBox: {
     minHeight: `1em`,
+    marginBottom: `1em`,
   },
   rankingBox: {
     minHeight: `1em`,
@@ -150,6 +151,18 @@ const initialTeamDetails: TeamDetails = {
   competitors: [initialCompetitor, initialCompetitor, initialCompetitor],
 };
 
+interface SubmissionError {
+  error: boolean;
+  success: boolean;
+  message: string;
+}
+
+const inititalSubmissionError: SubmissionError = {
+  error: false,
+  success: false,
+  message: "",
+};
+
 const TeamPage = () => {
   const classes = styles();
 
@@ -160,7 +173,10 @@ const TeamPage = () => {
   );
   const [submissionProcessing, setSubmissionProcessing] =
     useState<boolean>(false);
-  const [submissionSuccess, setSubmissionSuccess] = useState<boolean>(false);
+
+  const [submissionError, setSubmissionError] = useState<SubmissionError>(
+    inititalSubmissionError
+  );
 
   useEffect(() => {
     fetchTeamDetails();
@@ -195,15 +211,38 @@ const TeamPage = () => {
       return;
     }
 
-    setSubmissionSuccess(false);
+    setSubmissionError({
+      error: false,
+      success: false,
+      message: "",
+    });
 
     setSubmissionProcessing(true);
 
-    await updateTeamDetails(teamDetails);
+    const submissionResponse = await updateTeamDetails(teamDetails);
+
+    console.log({ submissionResponse });
+
+    const message = await submissionResponse.text();
+
+    console.log({ message });
 
     setSubmissionProcessing(false);
 
-    setSubmissionSuccess(true);
+    if (!submissionResponse.ok) {
+      setSubmissionError({
+        error: true,
+        success: false,
+        message: message,
+      });
+      return;
+    } else {
+      setSubmissionError({
+        error: true,
+        success: false,
+        message: "",
+      });
+    }
   };
 
   const renderButton = () => {
@@ -230,9 +269,24 @@ const TeamPage = () => {
       </Box>
     );
   };
-
+  const renderSubmissionFailedBanner = () => {
+    return submissionError.error ? (
+      <div className={classes.errorBox}>
+        <Box className={classes.errorPanel}>
+          <Alert severity="error">
+            <AlertTitle className={classes.errorTitle}>
+              Error updating details
+            </AlertTitle>
+            {submissionError.message.split("\n").map((i, key) => {
+              return <div key={key}>{i}</div>;
+            })}
+          </Alert>
+        </Box>
+      </div>
+    ) : null;
+  };
   const renderSubmissionSucceededBanner = () => {
-    return submissionSuccess ? (
+    return submissionError.success ? (
       <div className={classes.errorBox}>
         <Box className={classes.errorPanel}>
           <Alert severity="success">
@@ -252,10 +306,11 @@ const TeamPage = () => {
           className={classes.nameBox}
         >{`Welcome, ${userContext.currentUsername}. These are your team's details. 
             If you wish to change anything, edit the fields below
-            and then clicking the 'Update Details' button at the bottom of 
-            the page to save any changes.`}</div>
-
+            and then click the 'Update Details' button at the bottom of 
+            the page when you are done.`}</div>
         {renderSubmissionSucceededBanner()}
+        {renderSubmissionFailedBanner()}
+
         <div className={classes.buttonBox}>{renderButton()}</div>
       </div>
     </div>
