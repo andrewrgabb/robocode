@@ -5,7 +5,7 @@ import {
     getStatUrl,
     getSubmitUrl,
 } from '../paths/api';
-import {doGet, doPost} from "./base-service";
+import { doGet, doPost } from "./base-service";
 import {
     Stat, TeamDetails,
 } from '../transport/user';
@@ -20,13 +20,13 @@ export const getCurrentUser = async () => {
     }
 
     let json = await response.json();
-    
+
     const username = json.username;
 
     return username;
 };
 
-export const getStat = async(): Promise<Stat | null> => {
+export const getStat = async (): Promise<Stat | null> => {
 
     const response = await doGet(getStatUrl());
 
@@ -35,17 +35,17 @@ export const getStat = async(): Promise<Stat | null> => {
         return null;
     }
 
-    let json: Stat = await response.json() ;
+    let json: Stat = await response.json();
     return json;
 }
 
-export const submitCode = async(file: File): Promise<any> => {
+export const submitCode = async (file: File): Promise<any> => {
 
     // May need to be changed
     const formData = new FormData();
 
-	formData.append('submission', file);
-    try{
+    formData.append('submission', file);
+    try {
         const response = await doPost(getSubmitUrl(), formData, true);
         /*
         // I use status codes quite liberally. code != 200 doesn't mean failure
@@ -58,9 +58,9 @@ export const submitCode = async(file: File): Promise<any> => {
         let json = await response.json();
         console.log(json);
         return json;
-    }catch (e){
+    } catch (e) {
         return {
-            "ok":false,
+            "ok": false,
             "message": "File upload failed! If you edited your file on disk, you'll need to drop it again."
         };
     }
@@ -75,14 +75,12 @@ export const getTeamDetails = async (): Promise<TeamDetails | null> => {
         return null;
     }
 
-    let json: TeamDetails = await response.json() ;
+    let json: TeamDetails = await response.json();
     return json;
 }
 
-export const updateTeamDetails = async (teamDetails: TeamDetails): Promise<void> => {
-
-    await doPost(getEditDetailsUrl(), teamDetails);
-    
+export const updateTeamDetails = async (teamDetails: TeamDetails | undefined): Promise<void> => {
+    if (teamDetails) await doPost(getEditDetailsUrl(), teamDetails);
     return;
 }
 
