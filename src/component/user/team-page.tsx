@@ -1,20 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {
-  getStat,
-  getTeamDetails,
-  submitCode,
-  updateTeamDetails,
-} from "../../service/user-service";
-import { useDropzone } from "react-dropzone";
-import { FileWithPath } from "file-selector";
-import { CloudDownloadRounded } from "@material-ui/icons";
+import { getTeamDetails, updateTeamDetails } from "../../service/user-service";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 
-import { getLogUrl, getCodepackUrl } from "../../paths/api";
 import UserContext from "../../context/user-context";
 
 const styles = makeStyles((theme) => ({
