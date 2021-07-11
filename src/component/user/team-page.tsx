@@ -154,6 +154,11 @@ const initialCompetitor: Competitor = {
   yeardeg: "",
 };
 
+const initialTeamDetails: TeamDetails = {
+  teamName: "",
+  competitors: [initialCompetitor, initialCompetitor, initialCompetitor],
+};
+
 const TeamPage = () => {
   const classes = styles();
 
@@ -164,6 +169,7 @@ const TeamPage = () => {
   );
   const [submissionProcessing, setSubmissionProcessing] =
     useState<boolean>(false);
+  const [submissionSuccess, setSubmissionSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     fetchTeamDetails();
@@ -173,26 +179,40 @@ const TeamPage = () => {
   const fetchTeamDetails = async () => {
     const fetchedTeamDetails: TeamDetails | null = await getTeamDetails();
 
-    if (!fetchedTeamDetails) {
-      return;
+    let newTeamDetails: TeamDetails = initialTeamDetails;
+
+    if (userContext.currentUsername) {
+      newTeamDetails.teamName = userContext.currentUsername;
     }
 
-    console.log({ fetchedTeamDetails });
+    if (fetchedTeamDetails) {
+      newTeamDetails.teamName = fetchedTeamDetails.teamName;
 
-    const newTeamDetails: TeamDetails = {
-      teamName: fetchedTeamDetails.teamName,
-      competitors: [...fetchedTeamDetails.competitors],
-    };
+      fetchedTeamDetails.competitors.forEach(
+        (competitor: Competitor, index: number) => {
+          newTeamDetails.competitors[index] = competitor;
+        }
+      );
+    }
 
+    console.log({ newTeamDetails });
     setTeamDetails(newTeamDetails);
   };
 
   const handleSubmission = async () => {
+    if (!teamDetails) {
+      return;
+    }
+
+    setSubmissionSuccess(false);
+
     setSubmissionProcessing(true);
 
     await updateTeamDetails(teamDetails);
 
     setSubmissionProcessing(false);
+
+    setSubmissionSuccess(true);
   };
 
   const renderButton = () => {
@@ -212,7 +232,7 @@ const TeamPage = () => {
           color="primary"
           disabled={submissionProcessing}
           fullWidth
-          onClick={() => handleUpload()}
+          onClick={() => handleSubmission()}
         >
           {!submissionProcessing ? `Update Details` : `Updating`}
         </Button>
@@ -221,17 +241,17 @@ const TeamPage = () => {
   };
 
   const renderSubmissionSucceededBanner = () => {
-    return (
+    return submissionSuccess ? (
       <div className={classes.errorBox}>
         <Box className={classes.errorPanel}>
           <Alert severity="success">
             <AlertTitle className={classes.errorTitle}>
-              Submission success!
+              Details successfully changed!
             </AlertTitle>
           </Alert>
         </Box>
       </div>
-    );
+    ) : null;
   };
   return (
     <div className={classes.userContent}>
@@ -240,9 +260,9 @@ const TeamPage = () => {
         <div
           className={classes.nameBox}
         >{`Welcome, ${userContext.currentUsername}. These are your team's details. 
-            If you wish to change anything, please do so by editing the fields 
-            and then clicking the 'Update Details'
-            button at the bottom of the page to save any changes.`}</div>
+            If you wish to change anything, edit the fields below
+            and then clicking the 'Update Details' button at the bottom of 
+            the page to save any changes.`}</div>
 
         {renderSubmissionSucceededBanner()}
         <div className={classes.buttonBox}>{renderButton()}</div>

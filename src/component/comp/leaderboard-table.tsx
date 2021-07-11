@@ -93,7 +93,7 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                         {"-" === row.submissionDateNo
                           ? "-"
                           : moment(row.submissionDateNo).format(
-                              "MMMM Do YYYY, h:mm:ss"
+                              "MMMM Do YYYY, h:mm:ss a"
                             )}
                       </TableCell>
                     }
