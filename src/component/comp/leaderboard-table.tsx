@@ -85,7 +85,7 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                     {
                       <TableCell key={`${index}_1`} align={"left"}>
                         <span>{row.displayName}</span>
-                        {row.name != row.displayName ? <span className={classes.minispan}>{row.name}</span> : ""}
+                        {row.name != row.displayName ? <span className={classes.minispan}>[{row.name}]</span> : ""}
                       </TableCell>
                     }
                     {
