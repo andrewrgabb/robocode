@@ -113,7 +113,7 @@ const initialRegisterDetails: registerDetailsType = {
   email: "",
   password: "",
   confirmPassword: "",
-  competitors: [initialCompetitor, initialCompetitor, initialCompetitor],
+  competitors: [initialCompetitor, JSON.parse(JSON.stringify(initialCompetitor)), JSON.parse(JSON.stringify(initialCompetitor))],
 };
 
 const inititalRegisterError: registerErrorType = {

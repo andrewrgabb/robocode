@@ -152,7 +152,7 @@ const initialCompetitor: Competitor = {
 
 const initialTeamDetails: TeamDetails = {
   teamName: "",
-  competitors: [initialCompetitor, initialCompetitor, initialCompetitor],
+  competitors: [initialCompetitor, JSON.parse(JSON.stringify(initialCompetitor)), JSON.parse(JSON.stringify(initialCompetitor))],
 };
 
 interface SubmissionError {

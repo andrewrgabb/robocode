@@ -16,6 +16,7 @@ interface Row {
   displayName: string;
   elo: string;
   submissionDateNo: string;
+  name: string;
 }
 
 const columns = [
@@ -33,6 +34,10 @@ const useStyles = makeStyles({
   container: {
     maxHeight: 600,
   },
+  minispan:{
+    fontSize: "0.8em",
+    color: "grey"
+  }
 });
 
 interface DisplayProps {
@@ -46,7 +51,6 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
 
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-
   const handleChangePage = (event: any, newPage: any) => {
     setPage(newPage);
   };
@@ -80,7 +84,8 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                     }
                     {
                       <TableCell key={`${index}_1`} align={"left"}>
-                        {row.displayName}
+                        <span>{row.displayName}</span>
+                        {row.name != row.displayName ? <span className={classes.minispan}>{row.name}</span> : ""}
                       </TableCell>
                     }
                     {
