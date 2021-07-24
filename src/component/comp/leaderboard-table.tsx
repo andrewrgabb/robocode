@@ -15,6 +15,7 @@ import moment from "moment";
 interface Row {
   displayName: string;
   elo: string;
+  medianElo:string;
   submissionDateNo: string;
   name: string;
 }
@@ -23,6 +24,7 @@ const columns = [
   { id: "rank", label: "Rank", minWidth: 40 },
   { id: "displayName", label: "Name", minWidth: 40 },
   { id: "elo", label: "ELO Rating", minWidth: 40 },
+  { id: "medianElo", label: "Median Elo (past 2 days)", minWidth: 40 },
   { id: "submissionDateTime", label: "Date / Time Submitted", minWidth: 40 },
 ];
 
@@ -91,6 +93,11 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                     {
                       <TableCell key={`${index}_2`} align={"left"}>
                         {row.elo}
+                      </TableCell>
+                    }
+                    {
+                      <TableCell key={`${index}_2`} align={"left"}>
+                        {row.medianElo}
                       </TableCell>
                     }
                     {
