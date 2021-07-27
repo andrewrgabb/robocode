@@ -11,11 +11,12 @@ import TableRow from "@material-ui/core/TableRow";
 
 import { Ranking } from "../../transport/comp";
 import moment from "moment";
+import { MouseEventHandler } from "react";
 
 interface Row {
   displayName: string;
   elo: string;
-  medianElo:string;
+  medianElo: string;
   submissionDateNo: string;
   name: string;
 }
@@ -23,8 +24,8 @@ interface Row {
 const columns = [
   { id: "rank", label: "Rank", minWidth: 40 },
   { id: "displayName", label: "Name", minWidth: 40 },
-  { id: "elo", label: "ELO Rating", minWidth: 40 },
-  { id: "medianElo", label: "Median Elo (past 2 days)", minWidth: 40 },
+  { id: "elo", label: "ELO Rating", minWidth: 40, toggleOnClick: true },
+  { id: "medianElo", label: "Median Elo (past 2 days)", minWidth: 40, toggleOnClick: true },
   { id: "submissionDateTime", label: "Date / Time Submitted", minWidth: 40 },
 ];
 
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
   container: {
     maxHeight: 600,
   },
-  minispan:{
+  minispan: {
     fontSize: "0.8em",
     color: "grey"
   }
@@ -44,12 +45,14 @@ const useStyles = makeStyles({
 
 interface DisplayProps {
   leaderboard: Ranking[] | null;
+  toggleSortMethod: MouseEventHandler;
+  sortedByMedian: boolean;
 }
 
 const rowsPerPage: number = 10;
 
 const LeaderboardTable: FC<DisplayProps> = (props) => {
-  const { leaderboard } = props;
+  const { leaderboard, toggleSortMethod, sortedByMedian } = props;
 
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -57,6 +60,7 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
     setPage(newPage);
   };
 
+  console.log(leaderboard);
   return null === leaderboard ? null : (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
@@ -66,9 +70,10 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
+                  onClick={(column.toggleOnClick ? toggleSortMethod : undefined)}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  {column.label + ((column.toggleOnClick && !((column.label === "ELO Rating") != sortedByMedian)) ? "⇅" : "")}
                 </TableCell>
               ))}
             </TableRow>
@@ -105,8 +110,8 @@ const LeaderboardTable: FC<DisplayProps> = (props) => {
                         {"-" === row.submissionDateNo
                           ? "-"
                           : moment(row.submissionDateNo).format(
-                              "MMMM Do YYYY, h:mm:ss a"
-                            )}
+                            "MMMM Do YYYY, h:mm:ss a"
+                          )}
                       </TableCell>
                     }
                   </TableRow>

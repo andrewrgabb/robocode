@@ -39,6 +39,7 @@ const LeaderboardPage = () => {
   const classes = styles();
 
   const [leaderboard, setLeaderboard] = useState<Ranking[] | null>(null);
+  const [sortedByMedian, setSortedByMedian] = useState<boolean>(false);
 
   useEffect(() => {
     fetchLeaderboard();
@@ -54,10 +55,22 @@ const LeaderboardPage = () => {
     }
   };
 
+  let toggleSortMethod = () => {
+    setSortedByMedian(!sortedByMedian);
+  }
+
+  const dsno = (no: string) => {
+    if (no == "-") {
+      return -10000;
+    }else{
+      return Number(no);
+    }
+  }
+
   return (
     <div className={classes.leaderboardContent}>
       <h1 className={classes.titleContainer}>{`Leaderboard`}</h1>
-      <Table leaderboard={leaderboard} />
+      <Table leaderboard={leaderboard ? (sortedByMedian ? leaderboard.sort((a, b) => dsno(b.medianElo) - dsno(a.medianElo)) : leaderboard.sort((a, b) => dsno(b.elo) - dsno(a.elo))) : leaderboard} toggleSortMethod={toggleSortMethod} sortedByMedian={sortedByMedian}/>
     </div>
   );
 };
